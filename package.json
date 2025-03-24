@@ -5,15 +5,11 @@
   "version": "0.1.0",
   "license": "MIT",
   "author": {
-    "name": "Piotr Borowiecki",
-    "url": "https://pjborowiecki.com"
+    "name": "Atharv More"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/pjborowiecki/QUANTUM-STASH-inventory-Management-SaaS-NextJs-TypeScript-Postgres-Drizzle-Tailwind.git"
-  },
-  "bugs": {
-    "url": "https://github.com/pjborowiecki/QUANTUM-STASH-inventory-Management-SaaS-NextJs-TypeScript-Postgres-Drizzle-Tailwind.git/issues"
+    "url": "https://github.com/code-geass69/smart_inventory_management"
   },
   "type": "module",
   "scripts": {
