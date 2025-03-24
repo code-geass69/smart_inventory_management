@@ -4,7 +4,7 @@ const links = {
 }
 
 export const siteConfig = {
-  name: "Quantum Stash",
+  name: "Arcline Logistics",
   description:
     "Quantum Stash is an open-source Software as a Service (SaaS) web application designed for efficient inventory management. Built with Next.js, Next-Auth, Postgres, Drizzle, Tailwind, ShadCN UI and many other fantastic tools.",
   links,

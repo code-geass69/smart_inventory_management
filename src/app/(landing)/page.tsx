@@ -8,8 +8,8 @@ export default function HomePage(): JSX.Element {
       <nav className="flex justify-between items-center px-8 py-4 border-b border-gray-700">
         <div className="text-2xl font-extrabold">Arcline</div>
         <div className="space-x-6 text-base">
-          <Link href="/auth/login" className="hover:text-blue-400">Login</Link>
-          <Link href="/auth/signup" className="hover:text-blue-400">Signup</Link>
+          <Link href="/signin" className="hover:text-blue-400">Login</Link>
+          <Link href="/signup" className="hover:text-blue-400">Signup</Link>
         </div>
       </nav>
 
@@ -25,7 +25,7 @@ export default function HomePage(): JSX.Element {
           From reliable deliveries to real-time tracking, we ensure your goods are safe, fast, and efficiently handled.
         </p>
         <div className="space-x-4">
-          <Link href="/auth/signup" className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded-full">
+          <Link href="/signup" className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded-full">
             Get Started
           </Link>
           <Link href="#learn-more" className="border border-white px-6 py-2 rounded-full hover:bg-white hover:text-black transition-all">

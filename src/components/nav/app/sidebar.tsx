@@ -30,7 +30,7 @@ export function Sidebar(): JSX.Element {
             <Icons.logo className="h-5 w-5" />
             <span
               className={cn(
-                "whitespace-nowrap font-bold leading-none tracking-wide",
+                "whitespace-nowrap font-bold leading-none tracking-wide pr-2",
                 collapsed && "hidden"
               )}
             >
