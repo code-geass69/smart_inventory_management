@@ -9,7 +9,7 @@ import { siteConfig } from "@/config/site"
 import { ThemeProvider } from "@/providers/theme-provider"
 import { cn } from "@/lib/utils"
 import { Toaster } from "@/components/ui/toaster"
-import { TailwindIndicator } from "@/components/tailwind-indicator"
+// import { TailwindIndicator } from "@/components/tailwind-indicator"
 
 // import { ThemeToggle } from "@/components/theme-toggle"
 
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   authors: [
     {
       name: siteConfig.author,
-      url: siteConfig.links.authorsWebsite,
+      // url: siteConfig.links.authorsWebsite,
     },
   ],
   creator: siteConfig.author,
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: siteConfig.name,
     description: siteConfig.description,
-    images: [siteConfig.links.openGraphImage],
+    // images: [siteConfig.links.openGraphImage],
     creator: siteConfig.author,
   },
   icons: {
@@ -82,7 +82,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           {children}
 
           <Toaster />
-          <TailwindIndicator />
+          {/* <TailwindIndicator /> */}
           {/* <ThemeToggle /> */}
         </ThemeProvider>
       </body>
