@@ -14,7 +14,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { OAuthButtons } from "@/components/auth/oauth-buttons"
-import { SignInWithEmailForm } from "@/components/forms/auth/signin-with-email-form"
+// import { SignInWithEmailForm } from "@/components/forms/auth/signin-with-email-form"
 import { SignUpWithPasswordForm } from "@/components/forms/auth/signup-with-password-form"
 import { Icons } from "@/components/icons"
 
@@ -50,18 +50,7 @@ export default async function SignUpPage(): Promise<JSX.Element> {
             </div>
             <div className="relative mb-3 mt-6 flex justify-center text-xs uppercase">
               <span className="bg-background px-2">
-                Or continue with magic link
-              </span>
-            </div>
-          </div>
-          <SignInWithEmailForm />
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t" />
-            </div>
-            <div className="relative mb-3 mt-6 flex justify-center text-xs uppercase">
-              <span className="bg-background px-2">
-                Or continue with password
+                Continue with password
               </span>
             </div>
           </div>
@@ -93,28 +82,6 @@ export default async function SignUpPage(): Promise<JSX.Element> {
               </Link>
               .
             </div>
-          </div>
-
-          <div className="text-sm text-muted-foreground md:text-xs">
-            By continuing, you agree to our{" "}
-            <Link
-              aria-label="Terms of Service"
-              href="/tos"
-              className="font-semibold underline-offset-4 transition-all hover:underline"
-            >
-              ToS
-            </Link>{" "}
-            <br className="xs:hidden sm:block md:hidden" />
-            and
-            <Link
-              aria-label="Privacy Policy"
-              href="/privacy"
-              className="font-semibold underline-offset-4 transition-all hover:underline"
-            >
-              {" "}
-              Privacy Policy
-            </Link>
-            .
           </div>
         </CardFooter>
       </Card>

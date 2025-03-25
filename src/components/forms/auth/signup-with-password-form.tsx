@@ -32,6 +32,8 @@ export function SignUpWithPasswordForm(): JSX.Element {
   const form = useForm<SignUpWithPasswordFormInput>({
     resolver: zodResolver(signUpWithPasswordSchema),
     defaultValues: {
+      firstName: "",
+      lastName: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -42,6 +44,8 @@ export function SignUpWithPasswordForm(): JSX.Element {
     startTransition(async () => {
       try {
         const message = await signUpWithPassword({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
           email: formData.email,
           password: formData.password,
           confirmPassword: formData.confirmPassword,
@@ -88,6 +92,35 @@ export function SignUpWithPasswordForm(): JSX.Element {
         className="grid gap-4"
         onSubmit={(...args) => void form.handleSubmit(onSubmit)(...args)}
       >
+        {/* First Name field */}
+        <FormField
+          control={form.control}
+          name="firstName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>First Name</FormLabel>
+              <FormControl>
+                <Input placeholder="John" {...field} />
+              </FormControl>
+              <FormMessage className="pt-2 sm:text-sm" />
+            </FormItem>
+          )}
+        />
+        {/* Last Name field*/}
+        <FormField
+          control={form.control}
+          name="lastName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Last Name</FormLabel>
+              <FormControl>
+                <Input placeholder="Doe" {...field} />
+              </FormControl>
+              <FormMessage className="pt-2 sm:text-sm" />
+            </FormItem>
+          )}
+        />
+        {/* Email field*/}
         <FormField
           control={form.control}
           name="email"
@@ -101,7 +134,7 @@ export function SignUpWithPasswordForm(): JSX.Element {
             </FormItem>
           )}
         />
-
+        {/* Password field */}
         <FormField
           control={form.control}
           name="password"
@@ -115,7 +148,7 @@ export function SignUpWithPasswordForm(): JSX.Element {
             </FormItem>
           )}
         />
-
+        {/* Confirm Passwrod field  */}
         <FormField
           control={form.control}
           name="confirmPassword"

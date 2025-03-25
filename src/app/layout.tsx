@@ -1,17 +1,10 @@
 import "@/styles/globals.css"
-
-import * as React from "react"
 import type { Metadata, Viewport } from "next"
 import { env } from "@/env.mjs"
-
 import { fontInter } from "@/config/fonts"
 import { siteConfig } from "@/config/site"
-import { ThemeProvider } from "@/providers/theme-provider"
 import { cn } from "@/lib/utils"
-import { Toaster } from "@/components/ui/toaster"
-// import { TailwindIndicator } from "@/components/tailwind-indicator"
-
-// import { ThemeToggle } from "@/components/theme-toggle"
+import { Providers } from "@/components/shared/providers" // ✅ here!
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -31,19 +24,13 @@ export const metadata: Metadata = {
     template: `%s - ${siteConfig.name}`,
   },
   description: siteConfig.description,
-  authors: [
-    {
-      name: siteConfig.author,
-      // url: siteConfig.links.authorsWebsite,
-    },
-  ],
+  authors: [{ name: siteConfig.author }],
   creator: siteConfig.author,
   keywords: siteConfig.keywords,
   robots: {
     index: true,
     follow: true,
   },
-
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -56,35 +43,18 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: siteConfig.name,
     description: siteConfig.description,
-    // images: [siteConfig.links.openGraphImage],
     creator: siteConfig.author,
   },
   icons: {
     icon: "/favicon.ico",
   },
-  // manifest: `${siteConfig.url}/site.webmanifest`,
 }
 
-interface RootLayoutProps {
-  children: React.ReactNode
-}
-
-export default function RootLayout({ children }: RootLayoutProps) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className={cn("font-sans antialiased", fontInter.className)}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-
-          <Toaster />
-          {/* <TailwindIndicator /> */}
-          {/* <ThemeToggle /> */}
-        </ThemeProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   )

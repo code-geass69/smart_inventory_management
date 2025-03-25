@@ -25,8 +25,8 @@ export const {
   secret: env.AUTH_SECRET,
   session: {
     strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60, // 30 daysd
-    updateAge: 24 * 60 * 60, // 24 hours
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+    updateAge: 24 * 60 * 60,   // 24 hours
   },
   events: {
     async linkAccount({ user }) {
@@ -38,7 +38,7 @@ export const {
       if (account?.provider !== "credentials") return true
 
       const existingUser = await getUserById(user.id)
-      return !existingUser?.emailVerified ? false : true
+      return existingUser?.emailVerified ?? false
     },
 
     async jwt({ token }) {
@@ -48,12 +48,19 @@ export const {
       if (!existingUser) return token
 
       token.role = existingUser.role
+      token.firstName = existingUser.name         // 👈 coming from DB column "name"
+      token.lastName = existingUser.surname       // 👈 coming from DB column "surname"
+
       return token
     },
 
     session({ session, token }) {
       if (session.user && token.sub) session.user.id = token.sub
       if (session.user && token.role) session.user.role = token.role as UserRole
+
+      session.user.firstName = token.firstName as string
+      session.user.lastName = token.lastName as string
+
       return session
     },
   },

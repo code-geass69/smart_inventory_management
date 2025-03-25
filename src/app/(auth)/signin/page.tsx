@@ -14,7 +14,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { OAuthButtons } from "@/components/auth/oauth-buttons"
-import { SignInWithEmailForm } from "@/components/forms/auth/signin-with-email-form"
+// import { SignInWithEmailForm } from "@/components/forms/auth/signin-with-email-form"
 import { SignInWithPasswordForm } from "@/components/forms/auth/signin-with-password-form"
 import { Icons } from "@/components/icons"
 
@@ -50,18 +50,7 @@ export default async function SignInPage(): Promise<JSX.Element> {
             </div>
             <div className="relative mb-3 mt-6 flex justify-center text-xs uppercase">
               <span className="bg-background px-2">
-                Or continue with magic link
-              </span>
-            </div>
-          </div>
-          <SignInWithEmailForm />
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t" />
-            </div>
-            <div className="relative mb-3 mt-6 flex justify-center text-xs uppercase">
-              <span className="bg-background px-2">
-                Or continue with password
+                Continue with password
               </span>
             </div>
           </div>

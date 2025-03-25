@@ -15,6 +15,14 @@ const passwordSchema = z
 
 export const signUpWithPasswordSchema = z
   .object({
+    firstName: z
+      .string()
+      .min(1, { message: "First name is required" })
+      .max(50, { message: "First name must be at most 50 characters" }),
+    lastName: z
+      .string()
+      .min(1, { message: "Last name is required" })
+      .max(50, { message: "Last name must be at most 50 characters" }),
     email: emailSchema,
     password: passwordSchema.regex(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
@@ -30,9 +38,9 @@ export const signUpWithPasswordSchema = z
     path: ["confirmPassword"],
   })
 
-export const signInWithEmailSchema = z.object({
-  email: emailSchema,
-})
+// export const signInWithEmailSchema = z.object({
+//   email: emailSchema,
+// })
 
 export const signInWithPasswordSchema = z.object({
   email: emailSchema,
@@ -74,7 +82,7 @@ export type SignInWithPasswordFormInput = z.infer<
   typeof signInWithPasswordSchema
 >
 
-export type SignInWithEmailFormInput = z.infer<typeof signInWithEmailSchema>
+// export type SignInWithEmailFormInput = z.infer<typeof signInWithEmailSchema>
 
 export type PasswordResetFormInput = z.infer<typeof passwordResetSchema>
 
