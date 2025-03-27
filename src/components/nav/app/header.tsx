@@ -5,7 +5,7 @@ import { buttonVariants } from "@/components/ui/button"
 import { CustomTooltip } from "@/components/custom-tooltip"
 import { Icons } from "@/components/icons"
 import { AppsMenu } from "@/components/nav/app/menus/apps-menu"
-import { NotificationsMenu } from "@/components/nav/app/menus/notifications-menu"
+// import { NotificationsMenu } from "@/components/nav/app/menus/notifications-menu"
 import { OrganizationMenu } from "@/components/nav/app/menus/organization-menu"
 import { QuickCreateMenu } from "@/components/nav/app/menus/quick-create-menu"
 import { ReferAndEarnMenu } from "@/components/nav/app/menus/refer-and-earn-menu"
@@ -15,6 +15,7 @@ import { Search } from "@/components/search"
 export function Header(): JSX.Element {
   return (
     <header className="sticky top-0 z-[50] flex h-20 items-center justify-between gap-8 border-b bg-tertiary px-5">
+      {/* LEFT SECTION */}
       <div className="flex h-full items-center gap-2">
         <CustomTooltip text="Recent Activity">
           <Link
@@ -26,14 +27,18 @@ export function Header(): JSX.Element {
           </Link>
         </CustomTooltip>
 
+        {/* 🟢 Moved Quick Create here */}
+        <QuickCreateMenu />
+
         <Search />
       </div>
 
+      {/* RIGHT SECTION */}
       <div className="flex items-center justify-center gap-2">
         <div className="flex items-center justify-center">
-          <QuickCreateMenu />
+          {/* ❌ Removed from here */}
           <ReferAndEarnMenu />
-          <NotificationsMenu />
+          {/* <NotificationsMenu /> */}
 
           <CustomTooltip text="Settings">
             <Link

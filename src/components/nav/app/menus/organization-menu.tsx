@@ -1,31 +1,43 @@
+"use client"
+
+import { signOut } from "next-auth/react"
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet"
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { Icons } from "@/components/icons"
 
 export function OrganizationMenu(): JSX.Element {
   return (
-    <Sheet>
-      <SheetTrigger
+    <DropdownMenu>
+      <DropdownMenuTrigger
         className={cn(
           buttonVariants({ variant: "outline" }),
           "flex max-w-[160px] items-center justify-center gap-2 px-3 transition-all duration-300 ease-in-out"
         )}
       >
-        <span className="truncate">Piotr Borowiecki</span>
+        <span className="truncate">Atharv More</span>
         <Icons.chevronDown aria-hidden="true" className="h-4 w-4" />
-      </SheetTrigger>
-      <SheetContent>
-        <SheetHeader>
-          <SheetTitle>TODO: Organization Menu</SheetTitle>
-        </SheetHeader>
-      </SheetContent>
-    </Sheet>
+      </DropdownMenuTrigger>
+
+      <DropdownMenuContent align="end" className="w-48">
+        <DropdownMenuItem onClick={() => console.log("Profile clicked")}>
+          <Icons.user className="mr-2 h-4 w-4" /> Profile
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => console.log("Settings clicked")}>
+          <Icons.settings className="mr-2 h-4 w-4" /> Settings
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => signOut({ callbackUrl: "/signin" })}
+          className="text-red-500"
+        >
+          <Icons.logout className="mr-2 h-4 w-4" /> Sign out
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }
