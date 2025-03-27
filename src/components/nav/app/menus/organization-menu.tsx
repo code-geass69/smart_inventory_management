@@ -1,8 +1,9 @@
 "use client"
-
+import { useRouter } from "next/navigation"
 import { signOut, useSession } from "next-auth/react"
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
+import Link from "next/link"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,7 +15,7 @@ import { Icons } from "@/components/icons"
 export function OrganizationMenu(): JSX.Element {
   const { data: session } = useSession()
   const user = session?.user
-
+  const router = useRouter()
   const displayName = `${user?.name ?? ""}`.trim() || `${user?.firstName ?? ""} ${user?.lastName ?? ""}`.trim() || "User"
   return (
     <DropdownMenu>
@@ -29,10 +30,13 @@ export function OrganizationMenu(): JSX.Element {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="end" className="w-48">
-        <DropdownMenuItem onClick={() => console.log("Profile clicked")}>
-          <Icons.user className="mr-2 h-4 w-4" /> Profile
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => console.log("Settings clicked")}>
+      <DropdownMenuItem asChild>
+          <Link href="/app/profile">
+            <Icons.user className="mr-2 h-4 w-4" />
+            Profile
+          </Link>
+      </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => router.push("/app/settings")}>
           <Icons.settings className="mr-2 h-4 w-4" /> Settings
         </DropdownMenuItem>
         <DropdownMenuItem

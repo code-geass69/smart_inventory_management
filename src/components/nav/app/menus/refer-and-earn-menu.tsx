@@ -14,7 +14,7 @@ export function ReferAndEarnMenu(): JSX.Element {
   return (
     <Sheet>
       <SheetTrigger className={cn(buttonVariants({ variant: "ghost" }), "p-3")}>
-        <CustomTooltip text="Notifications">
+        <CustomTooltip text="Refer and Earn">
           <Icons.users aria-hidden="true" className="h-4 w-4" />
         </CustomTooltip>
       </SheetTrigger>
