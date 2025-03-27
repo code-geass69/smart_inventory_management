@@ -11,10 +11,6 @@ export const sidebarItems = [
         href: "/app/home/dashboard",
       },
       {
-        title: "Getting Started",
-        href: "/app/home/getting-started",
-      },
-      {
         title: "Recent Updates",
         href: "/app/home/updates",
       },
