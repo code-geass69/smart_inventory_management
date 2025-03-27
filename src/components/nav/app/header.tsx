@@ -9,7 +9,6 @@ import { AppsMenu } from "@/components/nav/app/menus/apps-menu"
 import { OrganizationMenu } from "@/components/nav/app/menus/organization-menu"
 import { QuickCreateMenu } from "@/components/nav/app/menus/quick-create-menu"
 import { ReferAndEarnMenu } from "@/components/nav/app/menus/refer-and-earn-menu"
-import { UserMenu } from "@/components/nav/app/menus/user-menu"
 import { Search } from "@/components/search"
 
 export function Header(): JSX.Element {
@@ -52,7 +51,6 @@ export function Header(): JSX.Element {
         </div>
 
         <OrganizationMenu />
-        <UserMenu />
 
         <div className="flex items-center justify-center">
           <AppsMenu />

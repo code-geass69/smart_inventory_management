@@ -1,6 +1,6 @@
 "use client"
 
-import { signOut } from "next-auth/react"
+import { signOut, useSession } from "next-auth/react"
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import {
@@ -12,6 +12,10 @@ import {
 import { Icons } from "@/components/icons"
 
 export function OrganizationMenu(): JSX.Element {
+  const { data: session } = useSession()
+  const user = session?.user
+
+  const displayName = `${user?.name ?? ""}`.trim() || `${user?.firstName ?? ""} ${user?.lastName ?? ""}`.trim() || "User"
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
@@ -20,7 +24,7 @@ export function OrganizationMenu(): JSX.Element {
           "flex max-w-[160px] items-center justify-center gap-2 px-3 transition-all duration-300 ease-in-out"
         )}
       >
-        <span className="truncate">Atharv More</span>
+        <span className="truncate">{displayName}</span>
         <Icons.chevronDown aria-hidden="true" className="h-4 w-4" />
       </DropdownMenuTrigger>
 
