@@ -18,11 +18,11 @@ export function ReferAndEarnMenu(): JSX.Element {
           <Icons.users aria-hidden="true" className="h-4 w-4" />
         </CustomTooltip>
       </SheetTrigger>
-      <SheetContent>
+      {/* <SheetContent>
         <SheetHeader>
           <SheetTitle>TODO: Refer And Earn Menu</SheetTitle>
         </SheetHeader>
-      </SheetContent>
+      </SheetContent> */}
     </Sheet>
   )
 }
