@@ -32,12 +32,10 @@ export function Header(): JSX.Element {
         <Search />
       </div>
 
-      {/* RIGHT SECTION */}
       <div className="flex items-center justify-center gap-2">
         <div className="flex items-center justify-center">
-          {/* ❌ Removed from here */}
           <ReferAndEarnMenu />
-          {/* <NotificationsMenu /> */}
+   
 
           <CustomTooltip text="Settings">
             <Link
