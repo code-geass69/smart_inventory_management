@@ -152,6 +152,13 @@ export type AddUnitFormInput = z.infer<typeof unitSchema>
 // BRANDS
 export const brandSchema = z.object({
   name: z.string(),
+  category: z.string(),
 })
 
 export type AddBrandFormInput = z.infer<typeof brandSchema>
+
+export const deleteBrandSchema = z.object({
+  id: z.number(),
+})
+
+export type DeleteBrandFormInput = z.infer<typeof deleteBrandSchema>

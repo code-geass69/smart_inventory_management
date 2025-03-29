@@ -115,9 +115,10 @@ export const categories = pgTable("category", {
   createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
 })
 
-export const brands = pgTable("brand", {
+export const brands = pgTable("brands", {
   id: serial("id").primaryKey(),
-  name: varchar("name", { length: 32 }).unique().notNull(),
+  name: varchar("name", { length: 100 }).notNull(),
+  category: varchar("category", { length: 100 }).notNull(),
 })
 
 export const items = pgTable("item", {

@@ -19,3 +19,8 @@ export const warehousesSearchParamsSchema = searchParamsSchema.extend({
   description: z.string().optional(),
   location: z.string().optional(),
 })
+
+export const brandsSearchParamsSchema = searchParamsSchema.extend({
+  name: z.string().optional(),
+  category: z.string().optional(),
+})

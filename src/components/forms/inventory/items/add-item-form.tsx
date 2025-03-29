@@ -11,6 +11,13 @@ import { generateReactHelpers } from "@uploadthing/react/hooks"
 import { useForm } from "react-hook-form"
 import type { z } from "zod"
 
+import { useEffect, useState } from "react"
+
+type Category = {
+  id: number
+  name: string
+}
+
 import { useToast } from "@/hooks/use-toast"
 import { cn, isArrayOfFiles } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
@@ -41,13 +48,26 @@ import type { UploadFilesRouter } from "@/app/api/uploadthing/core"
 type AddItemFormInputs = z.infer<typeof itemSchema>
 
 const { useUploadThing } = generateReactHelpers<UploadFilesRouter>()
-
 export function AddItemForm(): JSX.Element {
   const { toast } = useToast()
   const [isPending, startTransition] = React.useTransition()
   const [files, setFiles] = React.useState<FileWithPreview[] | null>(null)
   const { isUploading, startUpload } = useUploadThing("productImage")
-
+  const [categories, setCategories] = useState<Category[]>([])
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch("/api/categories")
+        const data = await res.json()
+        setCategories(data)
+      } catch (error) {
+        console.error("Failed to fetch categories", error)
+      }
+    }
+  
+    fetchCategories()
+  }, [])
+  
   const form = useForm<AddItemFormInputs>({
     resolver: zodResolver(itemSchema),
     defaultValues: {
@@ -144,28 +164,24 @@ export function AddItemForm(): JSX.Element {
                 <FormLabel>Category</FormLabel>
                 <Select
                   value={field.value}
-                  onValueChange={(value: typeof field.value) =>
-                    field.onChange(value)
-                  }
+                  onValueChange={(value: typeof field.value) => field.onChange(value)}
                 >
                   <FormControl>
                     <SelectTrigger className="capitalize">
-                      <SelectValue />
+                      <SelectValue placeholder="Select a category" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
                     <SelectGroup>
-                      {Object.values(["electronics", "clothes", "books"]).map(
-                        (option) => (
-                          <SelectItem
-                            key={option}
-                            value={option}
-                            className="capitalize"
-                          >
-                            {option}
-                          </SelectItem>
-                        )
-                      )}
+                      {categories.map((option) => (
+                        <SelectItem
+                          key={option.id}
+                          value={option.name}
+                          className="capitalize"
+                        >
+                          {option.name}
+                        </SelectItem>
+                      ))}
                     </SelectGroup>
                   </SelectContent>
                 </Select>
