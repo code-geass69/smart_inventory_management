@@ -118,16 +118,21 @@ export const categories = pgTable("category", {
 export const brands = pgTable("brands", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 100 }).notNull(),
+  categoryId: integer("category_id")
+  .references(() => categories.id)
+  .notNull(),
   category: varchar("category", { length: 100 }).notNull(),
 })
 
 export const items = pgTable("item", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 128 }).notNull(),
-  // TODO: Link to category id, define relations
-  category: varchar("category", { length: 64 }).notNull(),
-  // TODO: Link to brand id, define relations
-  brand: varchar("brand", { length: 64 }).notNull(),
+  categoryId: integer("category_id")
+  .references(() => categories.id)
+  .notNull(),
+  brandId: integer("brand_id")
+    .references(() => brands.id) 
+    .notNull(),
   barcode: varchar("barcode", { length: 64 }).notNull(),
   description: text("description"),
   sellingPrice: decimal("selling_price", { precision: 10, scale: 2 })

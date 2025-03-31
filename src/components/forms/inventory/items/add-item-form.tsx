@@ -1,6 +1,7 @@
 "use client"
-
+//Imports//
 import * as React from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { addItem, checkItem } from "@/actions/inventory/items"
@@ -10,14 +11,6 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { generateReactHelpers } from "@uploadthing/react/hooks"
 import { useForm } from "react-hook-form"
 import type { z } from "zod"
-
-import { useEffect, useState } from "react"
-
-type Category = {
-  id: number
-  name: string
-}
-
 import { useToast } from "@/hooks/use-toast"
 import { cn, isArrayOfFiles } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
@@ -44,9 +37,13 @@ import { FileDialog } from "@/components/file-dialog"
 import { Icons } from "@/components/icons"
 import { Zoom } from "@/components/image-zoom"
 import type { UploadFilesRouter } from "@/app/api/uploadthing/core"
+//Imports END//------------------------------------------------------------------------------------------------------------------->
 
+//Components//
 type AddItemFormInputs = z.infer<typeof itemSchema>
-
+type Category = {id: number
+    name: string
+}
 const { useUploadThing } = generateReactHelpers<UploadFilesRouter>()
 export function AddItemForm(): JSX.Element {
   const { toast } = useToast()
@@ -54,6 +51,8 @@ export function AddItemForm(): JSX.Element {
   const [files, setFiles] = React.useState<FileWithPreview[] | null>(null)
   const { isUploading, startUpload } = useUploadThing("productImage")
   const [categories, setCategories] = useState<Category[]>([])
+  const [brands, setBrands] = useState<{ id: number; name: string }[]>([]);
+  
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -67,6 +66,22 @@ export function AddItemForm(): JSX.Element {
   
     fetchCategories()
   }, [])
+  
+  const handleCategoryChange = async (selectedCategory: string) => {
+    try {
+      const res = await fetch(`/api/brands?category=${selectedCategory.toLowerCase()}`) // Ensure category matches the format in the DB
+      const data = await res.json()
+  
+      if (res.ok) {
+        setBrands(data) // Update the brands state with the fetched data
+      } else {
+        console.error(data.message) // Handle errors if brands are not found
+        setBrands([]) // Clear the brands if none are found
+      }
+    } catch (error) {
+      console.error("Failed to fetch brands:", error)
+    }
+  }
   
   const form = useForm<AddItemFormInputs>({
     resolver: zodResolver(itemSchema),
@@ -164,7 +179,10 @@ export function AddItemForm(): JSX.Element {
                 <FormLabel>Category</FormLabel>
                 <Select
                   value={field.value}
-                  onValueChange={(value: typeof field.value) => field.onChange(value)}
+                  onValueChange={(value: typeof field.value) => {
+                    field.onChange(value)
+                    handleCategoryChange(value) // Fetch brands when category is selected
+                  }}
                 >
                   <FormControl>
                     <SelectTrigger className="capitalize">
@@ -190,44 +208,42 @@ export function AddItemForm(): JSX.Element {
             )}
           />
 
-          <FormField
-            control={form.control}
-            name="brand"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Brand</FormLabel>
-                <Select
-                  value={field.value}
-                  onValueChange={(value: typeof field.value) =>
-                    field.onChange(value)
-                  }
-                >
-                  <FormControl>
-                    <SelectTrigger className="capitalize">
-                      <SelectValue />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectGroup>
-                      {Object.values(["lenovo", "asus", "nike"]).map(
-                        (option) => (
-                          <SelectItem
-                            key={option}
-                            value={option}
-                            className="capitalize"
-                          >
-                            {option}
-                          </SelectItem>
-                        )
-                      )}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
+        <FormField
+          control={form.control}
+          name="brand"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Brand</FormLabel>
+              <Select
+                value={field.value}
+                onValueChange={(value: typeof field.value) => field.onChange(value)}
+                disabled={!categories.length} // Disable if no category is selected
+              >
+                <FormControl>
+                  <SelectTrigger className="capitalize">
+                    <SelectValue placeholder="Select a brand" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectGroup>
+                    {brands.length > 0 ? (
+                      brands.map((option) => (
+                        <SelectItem key={option.id} value={option.name} className="capitalize">
+                          {option.name}
+                        </SelectItem>
+                      ))
+                    ) : (
+                      <SelectItem value="no-brands" disabled>
+                        No brands available for this category
+                      </SelectItem>
+                    )}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
           <FormField
             control={form.control}
             name="barcode"

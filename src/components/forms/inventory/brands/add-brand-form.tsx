@@ -36,7 +36,8 @@ export function AddBrandForm(): JSX.Element {
   const { toast } = useToast()
   const router = useRouter()
   const [isPending, startTransition] = React.useTransition()
-  const [categories, setCategories] = useState<string[]>([])
+  const [categories, setCategories] = useState<{ id: number, name: string }[]>([])
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null)
 
   const form = useForm<AddBrandFormInputs>({
     resolver: zodResolver(brandSchema),
@@ -51,7 +52,7 @@ export function AddBrandForm(): JSX.Element {
       try {
         const res = await fetch("/api/categories")
         const data = await res.json()
-        setCategories(data.map((c: any) => c.name))
+        setCategories(data)
       } catch (err) {
         console.error("Failed to load categories", err)
       }
@@ -60,10 +61,29 @@ export function AddBrandForm(): JSX.Element {
     fetchCategories()
   }, [])
 
+  const handleCategoryChange = (categoryName: string) => {
+    const category = categories.find((cat) => cat.name === categoryName)
+    if (category) {
+      setSelectedCategoryId(category.id) 
+    }
+  }
+
   function onSubmit(formData: AddBrandFormInputs) {
     startTransition(async () => {
       try {
-        const response = await addBrand(formData)
+        if (!selectedCategoryId) {
+          toast({
+            title: "Error",
+            description: "Please select a valid category.",
+            variant: "destructive",
+          })
+          return
+        }
+
+        const response = await addBrand({
+          name: formData.name,
+          category: formData.category,
+        })
 
         if (response === "success") {
           toast({ title: "Success!", description: "New brand added" })
@@ -106,7 +126,10 @@ export function AddBrandForm(): JSX.Element {
           render={({ field }) => (
             <FormItem className="w-1/2">
               <FormLabel>Category</FormLabel>
-              <Select value={field.value} onValueChange={field.onChange}>
+              <Select value={field.value} onValueChange={(value) => {
+                field.onChange(value)
+                handleCategoryChange(value)  // Set category ID on change
+              }}>
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="Select a category" />
@@ -114,8 +137,8 @@ export function AddBrandForm(): JSX.Element {
                 </FormControl>
                 <SelectContent>
                   {categories.map((cat) => (
-                    <SelectItem key={cat} value={cat}>
-                      {cat}
+                    <SelectItem key={cat.id} value={cat.name}>
+                      {cat.name}
                     </SelectItem>
                   ))}
                 </SelectContent>

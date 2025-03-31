@@ -36,20 +36,14 @@ export const itemSchema = z.object({
   barcode: z.string(),
   description: z.string(),
   sellingPrice: z
-    .string({
+    .number({
       required_error: "Selling Price is required",
       invalid_type_error: "Selling Price must be a string",
-    })
-    .regex(/^\d+(\.\d{1,2})?$/, {
-      message: "Invalid format",
     }),
   purchasePrice: z
-    .string({
+    .number({
       required_error: "Purchase Price is required",
       invalid_type_error: "Purchase Price must be a string",
-    })
-    .regex(/^\d+(\.\d{1,2})?$/, {
-      message: "Invalid format",
     }),
   taxRate: z
     .number({

@@ -1,0 +1,105 @@
+src/
+├── auth.ts                       // Auth logic for authentication flow
+├── env.mjs                       // Environment variables for configuration
+
+├── actions
+│   ├── auth.ts                   // Authentication-related actions (e.g., sign in, sign up)
+│   ├── dashboard.ts              // Dashboard-related actions (fetching data, etc.)
+│   ├── emails.ts                 // Email handling actions (sending emails, email verification)
+│   ├── purchases.ts              // Actions related to purchases (e.g., creating orders)
+│   ├── reports.ts                // Actions for generating reports
+│   ├── sales.ts                  // Sales-related actions (orders, payments)
+│   ├── users.ts                  // User-related actions (creating, updating, fetching users)
+│   ├── warehouses.ts             // Actions for warehouse management
+│
+│   └── inventory
+│       ├── brands.ts             // Logic for managing brands (create, update, delete)
+│       ├── categories.ts         // Logic for managing categories (create, update, delete)
+│       ├── items.ts              // Logic for managing inventory items (create, update, delete)
+│       └── units.ts              // Logic for managing units (e.g., piece, kg)
+│
+├── app
+│   ├── layout.tsx                // Global layout for the app (structure, meta, etc.)
+│   ├── (app)                     // Main app-related pages and components
+│   │   ├── layout.tsx            // Main layout file for the app
+│   │   └── app                    // Sub-pages and components related to the app
+│   │       ├── documents         // Section for managing documents
+│   │       ├── home              // Main home page with announcements, dashboard, etc.
+│   │       ├── integrations      // Integration pages for other services
+│   │       ├── inventory         // Pages for managing inventory (brands, categories, items, etc.)
+│   │       ├── profile           // User profile page
+│   │       ├── purchases         // Pages related to purchases and orders
+│   │       ├── reports           // Reporting pages
+│   │       └── sales             // Sales-related pages
+│   │
+│   ├── (auth)                    // Authentication-related pages (login, signup)
+│   ├── (landing)                 // Landing page content and information
+│   └── api                       // API routes for backend services
+│       ├── auth                  // Auth API (login, signup, etc.)
+│       ├── categories            // Category-related API routes
+│       ├── uploadthing           // File upload routes
+│       └── (other services)      // Other related API routes
+
+├── components
+│   ├── custom-tooltip.tsx         // Custom tooltip component
+│   ├── file-dialog.tsx           // File upload dialog component
+│   ├── icons.tsx                 // Icons used throughout the app
+│   ├── image-zoom.tsx            // Image zoom functionality component
+│   ├── password-input.tsx        // Custom password input component
+│   ├── search.tsx                // Search bar component
+│   ├── subscription-prompt.tsx   // Subscription prompt component
+│   ├── tailwind-indicator.tsx    // Tailwind loading/indicator component
+│   ├── theme-toggle.tsx          // Theme switch (dark mode/light mode) component
+│   ├── auth                      // Authentication-related components (sign in, sign up forms)
+│   ├── dashboard                 // Dashboard-related components (e.g., sales activity, inventory summary)
+│   ├── data-table                // Data table components (pagination, sorting, etc.)
+│   ├── emails                    // Email components (e.g., email verification, magic link)
+│   ├── forms                     // Form components for different inventory/warehouses
+│   ├── nav                       // Navigation components (e.g., sidebar, headers)
+│   ├── shared                    // Shared utility components across the app
+│   ├── skeletons                 // Skeleton loaders for content
+│   ├── ui                        // Basic UI components (buttons, checkboxes, inputs, etc.)
+│   └── warehouses                // Warehouse-related UI components
+
+├── config
+│   ├── auth.ts                   // Authentication configuration
+│   ├── email.ts                  // Email configuration (SMTP, etc.)
+│   ├── fonts.ts                  // Fonts used in the application
+│   └── site.ts                   // Site configuration (base URL, meta tags)
+
+├── data
+│   ├── nav-items-app.ts          // App navigation items configuration
+│   ├── nav-items-landing.ts      // Landing page navigation items
+│   └── constants                 // Constants like dashboard settings, inventory settings
+│
+├── db
+│   ├── index.ts                  // Database connection and ORM setup
+│   ├── migrations                // Database migration files
+│   ├── prepared                  // Prepared SQL statements for optimized queries
+│   └── schema                    // Database schema definitions
+
+├── hooks
+│   ├── use-debounce.ts           // Custom hook for debouncing input
+│   ├── use-toast.ts              // Custom hook for handling toast notifications
+
+├── lib
+│   ├── patterns.ts               // Utility functions for pattern matching and validation
+│   └── utils.ts                  // General utility functions
+
+├── providers
+│   └── theme-provider.tsx        // Theme provider for managing light/dark mode
+
+├── styles
+│   └── globals.css               // Global styles and CSS variables
+
+├── types
+│   ├── auth.d.ts                 // Types related to authentication (e.g., JWT tokens, user data)
+│   ├── index.d.ts                // General types used across the app
+
+└── validations
+    ├── auth.ts                   // Validation schema for auth-related data (e.g., sign-in, sign-up)
+    ├── email.ts                  // Email validation schema
+    ├── inventory.ts              // Inventory validation schema (items, categories, etc.)
+    ├── og.ts                     // Open Graph validation schema
+    ├── params.ts                 // URL parameters validation
+    └── warehouses.ts             // Warehouse validation schema
