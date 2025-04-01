@@ -2,13 +2,11 @@
 //Imports//
 import * as React from "react"
 import { useEffect, useState } from "react"
-import Image from "next/image"
+
 import Link from "next/link"
 import { addItem, checkItem } from "@/actions/inventory/items"
-import { type FileWithPreview } from "@/types"
 import { itemSchema } from "@/validations/inventory"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { generateReactHelpers } from "@uploadthing/react/hooks"
 import { useForm } from "react-hook-form"
 import type { z } from "zod"
 import { useToast } from "@/hooks/use-toast"
@@ -33,26 +31,33 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { FileDialog } from "@/components/file-dialog"
 import { Icons } from "@/components/icons"
-import { Zoom } from "@/components/image-zoom"
-import type { UploadFilesRouter } from "@/app/api/uploadthing/core"
 //Imports END//------------------------------------------------------------------------------------------------------------------->
 
 //Components//
 type AddItemFormInputs = z.infer<typeof itemSchema>
-type Category = {id: number
-    name: string
-}
-const { useUploadThing } = generateReactHelpers<UploadFilesRouter>()
+type Category = { id: number; name: string }
+type Warehouse = { id: number; name: string };
 export function AddItemForm(): JSX.Element {
   const { toast } = useToast()
   const [isPending, startTransition] = React.useTransition()
-  const [files, setFiles] = React.useState<FileWithPreview[] | null>(null)
-  const { isUploading, startUpload } = useUploadThing("productImage")
   const [categories, setCategories] = useState<Category[]>([])
   const [brands, setBrands] = useState<{ id: number; name: string }[]>([]);
-  
+  const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
+
+  useEffect(() => {
+    const fetchWarehouses = async () => {
+      try {
+        const res = await fetch("/api/warehouses");
+        const data = await res.json();
+        setWarehouses(data);
+      } catch (error) {
+        console.error("Failed to load warehouses", error);
+      }
+    };
+    fetchWarehouses();
+  }, []);
+
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -63,26 +68,26 @@ export function AddItemForm(): JSX.Element {
         console.error("Failed to fetch categories", error)
       }
     }
-  
+
     fetchCategories()
   }, [])
-  
+
   const handleCategoryChange = async (selectedCategory: string) => {
     try {
-      const res = await fetch(`/api/brands?category=${selectedCategory.toLowerCase()}`) // Ensure category matches the format in the DB
+      const res = await fetch(`/api/brands?category=${selectedCategory.toLowerCase()}`)
       const data = await res.json()
-  
+
       if (res.ok) {
-        setBrands(data) // Update the brands state with the fetched data
+        setBrands(data)
       } else {
-        console.error(data.message) // Handle errors if brands are not found
-        setBrands([]) // Clear the brands if none are found
+        console.error(data.message)
+        setBrands([])
       }
     } catch (error) {
       console.error("Failed to fetch brands:", error)
     }
   }
-  
+
   const form = useForm<AddItemFormInputs>({
     resolver: zodResolver(itemSchema),
     defaultValues: {
@@ -91,7 +96,6 @@ export function AddItemForm(): JSX.Element {
       sku: "",
       barcode: "",
       supplier: "",
-      images: [],
     },
   })
 
@@ -100,46 +104,16 @@ export function AddItemForm(): JSX.Element {
       try {
         await checkItem({ name: formData.name })
 
-        if (isArrayOfFiles(formData.images)) {
-          toast({
-            title: "Uploading images...",
-            description: "Please wait while we upload your images.",
-          })
+        await addItem({
+          ...formData,
+          images: null,
+        })
 
-          try {
-            const res = await startUpload(formData.images)
-            const formattedImages =
-              res?.map((image) => ({
-                id: image.key,
-                name: image.key.split("_")[1] ?? image.key,
-                url: image.url,
-              })) ?? null
-
-            await addItem({ ...formData, images: formattedImages })
-
-            toast({
-              title: "Product added successfully",
-            })
-          } catch (error) {
-            toast({
-              title: "Error uploading images",
-              description: "There was an error while uploading images",
-              variant: "destructive",
-            })
-          }
-        } else {
-          await addItem({
-            ...formData,
-            images: null,
-          })
-
-          toast({
-            title: "Product added successfully",
-          })
-        }
+        toast({
+          title: "Product added successfully",
+        })
 
         form.reset()
-        setFiles(null)
       } catch (error) {
         toast({
           title: "Something went wrong",
@@ -149,6 +123,7 @@ export function AddItemForm(): JSX.Element {
       }
     })
   }
+
 
   return (
     <Form {...form}>
@@ -181,7 +156,7 @@ export function AddItemForm(): JSX.Element {
                   value={field.value}
                   onValueChange={(value: typeof field.value) => {
                     field.onChange(value)
-                    handleCategoryChange(value) // Fetch brands when category is selected
+                    handleCategoryChange(value)
                   }}
                 >
                   <FormControl>
@@ -208,42 +183,42 @@ export function AddItemForm(): JSX.Element {
             )}
           />
 
-        <FormField
-          control={form.control}
-          name="brand"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Brand</FormLabel>
-              <Select
-                value={field.value}
-                onValueChange={(value: typeof field.value) => field.onChange(value)}
-                disabled={!categories.length} // Disable if no category is selected
-              >
-                <FormControl>
-                  <SelectTrigger className="capitalize">
-                    <SelectValue placeholder="Select a brand" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectGroup>
-                    {brands.length > 0 ? (
-                      brands.map((option) => (
-                        <SelectItem key={option.id} value={option.name} className="capitalize">
-                          {option.name}
+          <FormField
+            control={form.control}
+            name="brand"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Brand</FormLabel>
+                <Select
+                  value={field.value}
+                  onValueChange={(value: typeof field.value) => field.onChange(value)}
+                  disabled={!categories.length} // Disable if no category is selected
+                >
+                  <FormControl>
+                    <SelectTrigger className="capitalize">
+                      <SelectValue placeholder="Select a brand" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectGroup>
+                      {brands.length > 0 ? (
+                        brands.map((option) => (
+                          <SelectItem key={option.id} value={option.name} className="capitalize">
+                            {option.name}
+                          </SelectItem>
+                        ))
+                      ) : (
+                        <SelectItem value="no-brands" disabled>
+                          No brands available for this category
                         </SelectItem>
-                      ))
-                    ) : (
-                      <SelectItem value="no-brands" disabled>
-                        No brands available for this category
-                      </SelectItem>
-                    )}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+                      )}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="barcode"
@@ -492,32 +467,23 @@ export function AddItemForm(): JSX.Element {
             name="warehouse"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Warehouse (storage location)</FormLabel>
-                <Select
-                  value={field.value}
-                  onValueChange={(value: typeof field.value) =>
-                    field.onChange(value)
-                  }
-                >
+                <FormLabel>Warehouse</FormLabel>
+                <Select value={field.value} onValueChange={field.onChange}>
                   <FormControl>
-                    <SelectTrigger className="capitalize">
-                      <SelectValue />
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a warehouse" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectGroup>
-                      {Object.values(["main", "branch 1", "branch 2"]).map(
-                        (option) => (
-                          <SelectItem
-                            key={option}
-                            value={option}
-                            className="capitalize"
-                          >
-                            {option}
-                          </SelectItem>
-                        )
-                      )}
-                    </SelectGroup>
+                    {warehouses.length > 0 ? (
+                      warehouses.map((warehouse) => (
+                        <SelectItem key={warehouse.id} value={warehouse.id.toString()}>
+                          {warehouse.name}
+                        </SelectItem>
+                      ))
+                    ) : (
+                      <SelectItem value="" disabled>No warehouses available</SelectItem>
+                    )}
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -653,41 +619,6 @@ export function AddItemForm(): JSX.Element {
             </FormItem>
           )}
         />
-
-        <FormItem className="flex w-full flex-col gap-1.5">
-          <FormLabel>Images</FormLabel>
-          {files?.length ? (
-            <div className="flex items-center gap-2">
-              {files.map((file, i) => (
-                <Zoom key={i}>
-                  <Image
-                    src={file.preview}
-                    alt={file.name}
-                    className="h-20 w-20 shrink-0 rounded-md object-cover object-center"
-                    width={80}
-                    height={80}
-                  />
-                </Zoom>
-              ))}
-            </div>
-          ) : null}
-          <FormControl>
-            <FileDialog
-              setValue={form.setValue}
-              name="images"
-              maxFiles={5}
-              maxSize={1024 * 1024 * 4}
-              files={files}
-              setFiles={setFiles}
-              isUploading={isUploading}
-              disabled={isPending}
-            />
-          </FormControl>
-          <UncontrolledFormMessage
-            message={form.formState.errors.images?.message}
-          />
-        </FormItem>
-
         <div className=" flex items-center gap-2 pt-2">
           <Button disabled={isPending} aria-label="Add Item" className="w-fit">
             {isPending ? (

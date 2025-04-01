@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
-import { db } from '@/db' // Make sure the db import is correct
-import { brands, categories } from '@/db/schema' // Assuming you have a brands table and a categories table
+import { db } from '@/db'
+import { brands, categories } from '@/db/schema'
 import { eq } from 'drizzle-orm'
 
 export async function GET(request: Request) {

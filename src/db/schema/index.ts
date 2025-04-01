@@ -130,6 +130,9 @@ export const items = pgTable("item", {
   categoryId: integer("category_id")
   .references(() => categories.id)
   .notNull(),
+  warehouseId: integer("warehouse_id")
+  .references(() => warehouses.id) 
+  .notNull(),
   brandId: integer("brand_id")
     .references(() => brands.id) 
     .notNull(),
@@ -147,22 +150,15 @@ export const items = pgTable("item", {
   width: decimal("width", { precision: 10, scale: 2 }).notNull().default("0"),
   height: decimal("height", { precision: 10, scale: 2 }).notNull().default("0"),
   depth: decimal("depth", { precision: 10, scale: 2 }).notNull().default("0"),
-  // TODO: Link to unit id, define relations
   dimensionsUnit: varchar("dimensions_unit", { length: 8 }).notNull(),
   weight: decimal("weight", { precision: 10, scale: 2 }).notNull().default("0"),
-  // TODO: Link to unit id, define relations
-  weightUnit: varchar("dimensions_unit", { length: 8 }).notNull(),
-  // TODO: Link to warehouse id, define relations
-  warehouse: varchar("warehouse").notNull(),
+  weightUnit: varchar("weight_unit", { length: 8 }).notNull(),
   sku: varchar("sku", { length: 128 }).notNull(),
   quantity: integer("quantity").notNull(),
-  // TODO: Link to unit id, define relations
   unit: varchar("unit", { length: 8 }).notNull(),
   reorderPoint: integer("reorder_point").notNull(),
-  // TODO: Possibly add suppliers table, link id, define relations
   supplier: varchar("supplier", { length: 64 }).notNull(),
   notes: text("notes"),
-  images: json("images").$type<StoredFile[] | null>().default(null),
   createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow(),
 })

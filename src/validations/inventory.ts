@@ -115,16 +115,6 @@ export const itemSchema = z.object({
     }),
   supplier: z.string(),
   notes: z.string(),
-  images: z
-    .unknown()
-    .refine((val) => {
-      if (!Array.isArray(val)) return false
-      if (val.some((file) => !(file instanceof File))) return false
-      return true
-    }, "Images must be an array of Files")
-    .optional()
-    .nullable()
-    .default(null),
 })
 
 export const extendedItemSchema = itemSchema.extend({
