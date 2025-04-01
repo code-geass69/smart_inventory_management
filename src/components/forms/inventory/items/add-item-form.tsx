@@ -482,7 +482,7 @@ export function AddItemForm(): JSX.Element {
                         </SelectItem>
                       ))
                     ) : (
-                      <SelectItem value="" disabled>No warehouses available</SelectItem>
+                      <SelectItem value="no-warehouses" disabled>No warehouses available</SelectItem>
                     )}
                   </SelectContent>
                 </Select>
