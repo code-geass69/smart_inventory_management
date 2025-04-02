@@ -1,11 +1,13 @@
-import Link from "next/link"
-import { type InventoryOption } from "@/types"
-import Balancer from "react-wrap-balancer"
-
+"use client"
+import { useRef } from "react"
+import { ImportCsvButton } from "@/components/inventory/import-button"
+import { buttonVariants } from "../ui/button"
 import { cn } from "@/lib/utils"
 import { Icons } from "@/components/icons"
-
-import { buttonVariants } from "../ui/button"
+import { type InventoryOption } from "@/types"
+import Balancer from "react-wrap-balancer"
+import { importItemsFromCsv } from "@/actions/inventory/import-csv" 
+import Link from "next/link"
 
 interface OptionCardProps {
   option: InventoryOption
@@ -13,6 +15,18 @@ interface OptionCardProps {
 
 export function OptionCard({ option }: OptionCardProps) {
   const Icon = Icons[option.icon as keyof typeof Icons]
+  const fileInputRef = useRef<HTMLInputElement | null>(null)
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    const text = await file.text()
+
+    // Call the backend function to process the CSV
+    const result = await importItemsFromCsv(text)
+    console.log("Import result: ", result)
+  }
 
   return (
     <div
@@ -27,16 +41,38 @@ export function OptionCard({ option }: OptionCardProps) {
       <p className="max-w-xs text-center text-sm tracking-wide text-muted-foreground">
         <Balancer>{option.description}</Balancer>
       </p>
-      <Link
-        href={option.href}
-        className={cn(
-          buttonVariants({ variant: "outline", size: "lg" }),
-          "mt-2"
-        )}
-        aria-label={`Select ${option.buttonText}`}
-      >
-        {option.buttonText}
-      </Link>
+      {option.title === "Add Items via CSV" ? (
+        <>
+          <input
+            type="file"
+            accept=".csv"
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            hidden
+          />
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            className={cn(
+              buttonVariants({ variant: "outline", size: "lg" }),
+              "mt-2"
+            )}
+          >
+            {option.buttonText}
+          </button>
+        </>
+      ) : (
+        <Link
+          href={option.href}
+          className={cn(
+            buttonVariants({ variant: "outline", size: "lg" }),
+            "mt-2"
+          )}
+          aria-label={`Select ${option.buttonText}`}
+        >
+          {option.buttonText}
+        </Link>
+      )}
     </div>
   )
 }

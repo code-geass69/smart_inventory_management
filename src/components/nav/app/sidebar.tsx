@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button"
 import { CustomTooltip } from "@/components/custom-tooltip"
 import { Icons } from "@/components/icons"
 import { SidebarNav } from "@/components/nav/app/sidebar-nav"
-import { SubscriptionPrompt } from "@/components/subscription-prompt"
 
 export function Sidebar(): JSX.Element {
   const [collapsed, setCollapsed] = React.useState<boolean>(false)
@@ -43,8 +42,6 @@ export function Sidebar(): JSX.Element {
       </div>
 
       <div>
-        {!collapsed && <SubscriptionPrompt />}
-
         <div className="flex h-16 items-center justify-center border-t px-2">
           <CustomTooltip text={collapsed ? "Expand Navbar" : "Collapse Navbar"}>
             <Button

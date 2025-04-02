@@ -58,6 +58,7 @@ export interface InventoryOption {
   buttonText: string
   icon: string
   href: string
+  onClick?: () => void
 }
 
 export interface SettingsOptionItem {

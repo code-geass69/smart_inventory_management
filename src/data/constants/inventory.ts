@@ -4,7 +4,6 @@ import {
   type InventoryItemsSelectOption,
   type InventoryOption,
 } from "@/types"
-
 export const inventoryOptions = [
   {
     title: "Items",
@@ -14,18 +13,18 @@ export const inventoryOptions = [
     href: "/app/inventory/items/new-item",
   },
   {
-    title: "Item groups",
-    description: "Create multiple variants of the same item using Item Groups",
-    buttonText: "New Item Group",
+    title: "Add Items via CSV",
+    description: "Bulk import items from a CSV file",
+    buttonText: "Import Items",
     icon: "itemGroups",
-    href: "/app/inventory/item-groups/new-item-group",
+    href: "",
   },
   {
-    title: "Composite Items",
-    description: "Bundle different items together and sell them as kits",
-    buttonText: "New Composite Item",
+    title: "Export Data",
+    description: "Export inventory data to CSV",
+    buttonText: "Export Data",
     icon: "compositeItems",
-    href: "/app/inventory/composite-items/new-composite-item",
+    href: "/app/inventory/export-data", 
   },
   {
     title: "Price Lists",
