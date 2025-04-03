@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils"
 import { Icons } from "@/components/icons"
 import { type InventoryOption } from "@/types"
 import Balancer from "react-wrap-balancer"
-import { importItemsFromCsv } from "@/actions/inventory/import-csv" 
+import { importItemsFromCsv } from "@/actions/inventory/import-csv"
 import Link from "next/link"
 
 interface OptionCardProps {
@@ -17,6 +17,7 @@ export function OptionCard({ option }: OptionCardProps) {
   const Icon = Icons[option.icon as keyof typeof Icons]
   const fileInputRef = useRef<HTMLInputElement | null>(null)
 
+  // Handle file change for importing CSV
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
@@ -26,6 +27,27 @@ export function OptionCard({ option }: OptionCardProps) {
     // Call the backend function to process the CSV
     const result = await importItemsFromCsv(text)
     console.log("Import result: ", result)
+  }
+
+  // Handle export for the inventory data
+  const handleExport = async () => {
+    try {
+      const response = await fetch("/api/items/export", {
+        method: "GET",
+      })
+
+      if (response.ok) {
+        const data = await response.blob()
+        const link = document.createElement("a")
+        link.href = URL.createObjectURL(data)
+        link.download = "inventory.csv"
+        link.click()
+      } else {
+        console.error("Error exporting inventory")
+      }
+    } catch (error) {
+      console.error("❌ Error exporting inventory:", error)
+    }
   }
 
   return (
@@ -61,6 +83,18 @@ export function OptionCard({ option }: OptionCardProps) {
             {option.buttonText}
           </button>
         </>
+      ) : option.title === "Export Data" ? (
+        // Export data button
+        <button
+          type="button"
+          onClick={handleExport}  // Trigger export onClick
+          className={cn(
+            buttonVariants({ variant: "outline", size: "lg" }),
+            "mt-2"
+          )}
+        >
+          {option.buttonText}
+        </button>
       ) : (
         <Link
           href={option.href}

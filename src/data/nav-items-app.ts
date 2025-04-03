@@ -43,12 +43,10 @@ export const sidebarItems = [
       {
         title: "View Inventory",
         href: "/app/inventory/view-inventory",
-        // hrefPlus: "/app/inventory/inventory-adjustments/new-adjustment",
       },
       {
         title: "Inventory Statistics",
         href: "/app/inventory/statistics",
-        // hrefPlus: "/app/inventory/price-lists/new-list",
       },
     ],
   },

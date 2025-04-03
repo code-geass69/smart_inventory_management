@@ -8,6 +8,16 @@ export const searchParamsSchema = z.object({
   sort: z.string().optional().default("createdAt.desc"),
 })
 
+export const inventorySearchParamsSchema = searchParamsSchema.extend({
+  name: z.string().optional(),
+  categoryId: z.string().optional(),
+  warehouseId: z.string().optional(),
+  brandId: z.string().optional(),
+  sku: z.string().optional(),
+  barcode: z.string().optional(),
+  supplier: z.string().optional(),
+})
+
 export const categoriesSearchParamsSchema = searchParamsSchema.extend({
   name: z.string().optional(),
   description: z.string().optional(),

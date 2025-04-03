@@ -14,7 +14,7 @@ const CsvItemSchema = z.object({
   quantity: z.string(),
   purchasePrice: z.string(),
   sellingPrice: z.string(),
-  barcode: z.string(), // Added barcode field
+  barcode: z.string(),
   description: z.string().optional().nullable(),
   notes: z.string().optional().nullable(),
 });

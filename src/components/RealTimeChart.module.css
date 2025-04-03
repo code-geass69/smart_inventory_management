@@ -1,0 +1,33 @@
+.chartContainer {
+    position: relative;
+    width: 100%;
+    max-width: 450px; /* Limit the width of the chart container */
+    height: 400px;    /* Fixed height for consistency */
+    margin: 10px;     /* Add margin for spacing */
+    border-radius: 10px; /* Rounded corners */
+    background-color: #1e1e1e; /* Dark background */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Soft shadow */
+  }
+  
+  /* Apply grid layout for the statistics page */
+  .statisticsPageContainer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns per row */
+    gap: 20px; /* Space between the grid items */
+    padding: 20px; /* Padding around the grid */
+    grid-auto-rows: 400px; /* Fix height of grid items */
+  }
+  
+  /* Optional: Styling for chart title */
+  .chartTitle {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #fff; /* White color for the chart heading */
+    text-align: center; /* Center the title */
+  }
+  
+  /* Ensure canvas stretches to fit container */
+  .chartCanvas {
+    width: 100% !important;
+    height: 100% !important;
+  }
