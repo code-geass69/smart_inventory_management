@@ -209,44 +209,16 @@ const InventoryStatisticsPage = () => {
 
       {/*   Total Inventory Value per Item */}
       <div className={styles.chartContainer}>
-  <h3 className={styles.chartTitle}>💰 Total Inventory Value per Item</h3>
+         <h3 className={styles.chartTitle}>💰 Total Inventory Value per Item</h3>
         <div className={styles.doughnutWrapper}>
-        <Doughnut
-          data={{
-            labels: valueData.labels,
-            datasets: [
-              {
-                data: valueData.values,
-                backgroundColor: [
-                  "#36A2EB", "#FF6384", "#FFCE56", "#4BC0C0",
-                  "#9966FF", "#FF9F40", "#66bb6a", "#ef5350",
-                  "#ab47bc", "#ffa726"
-                ],
-                hoverOffset: 10,
-              },
-            ],
-          }}
-          options={{
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: {
-                labels: { color: "#fff" },
-              },
-              tooltip: {
-                callbacks: {
-                  label: (ctx) => {
-                    const val = ctx.raw as number;
-                    return `₹${val.toLocaleString()}`;
-                  },
-                },
-              },
-            },
-          }}
+        <Doughnut data={{labels: valueData.labels, datasets: [
+              {data: valueData.values, backgroundColor: ["#36A2EB", "#FF6384", "#FFCE56", "#4BC0C0", "#9966FF", "#FF9F40", "#66bb6a", "#ef5350", "#ab47bc", "#ffa726"], hoverOffset: 10,},],}}
+          options={{responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: "#fff" },},
+              tooltip: {callbacks: {label: (ctx) => {const val = ctx.raw as number;return `₹${val.toLocaleString()}`;},},},},}}
         />
       </div>
     </div>
-    </div>
+  </div>
   )
 }
 
