@@ -14,20 +14,32 @@ export async function addItem(
   console.log("Adding item to the database ...")
 
   try {
+    if (!input.category || !input.brand || !input.warehouse) {
+      throw new Error("Missing category, brand, or warehouse input.")
+    }
+    
     const category = await db.query.categories.findFirst({
       where: eq(categories.name, input.category),
     })
-
+    
+    if (!category) {
+      throw new Error(`Category "${input.category}" not found.`)
+    }
+    
     const brand = await db.query.brands.findFirst({
       where: eq(brands.name, input.brand),
     })
-
+    
+    if (!brand) {
+      throw new Error(`Brand "${input.brand}" not found.`)
+    }
+    
     const warehouse = await db.query.warehouses.findFirst({
-      where: eq(warehouses.name, input.warehouse), // Find warehouse by name
+      where: eq(warehouses.name, input.warehouse),
     })
-
-    if (!category || !brand || !warehouse) {
-      throw new Error("Category, Brand, or Warehouse not found.")
+    
+    if (!warehouse) {
+      throw new Error(`Warehouse "${input.warehouse}" not found.`)
     }
 
     await db.insert(items).values({

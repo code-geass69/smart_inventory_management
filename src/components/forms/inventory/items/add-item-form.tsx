@@ -477,7 +477,7 @@ export function AddItemForm(): JSX.Element {
                   <SelectContent>
                     {warehouses.length > 0 ? (
                       warehouses.map((warehouse) => (
-                        <SelectItem key={warehouse.id} value={warehouse.id.toString()}>
+                        <SelectItem key={warehouse.id} value={warehouse.name}>
                           {warehouse.name}
                         </SelectItem>
                       ))
