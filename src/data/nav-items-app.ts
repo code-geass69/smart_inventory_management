@@ -11,7 +11,7 @@ export const sidebarItems = [
         href: "/app/home/dashboard",
       },
       {
-        title: "Recent Updates",
+        title: "Alerts ⚠️",
         href: "/app/home/updates",
       },
       {
