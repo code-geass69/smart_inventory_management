@@ -24,7 +24,7 @@ export const inventoryOptions = [
     description: "Export inventory data to CSV",
     buttonText: "Export Data",
     icon: "compositeItems",
-    href: "/app/inventory/export-data", 
+    href: "", 
   },
   {
     title: "Price Lists",
