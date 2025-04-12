@@ -48,8 +48,8 @@ export const {
       if (!existingUser) return token
 
       token.role = existingUser.role
-      token.firstName = existingUser.name         // 👈 coming from DB column "name"
-      token.lastName = existingUser.surname       // 👈 coming from DB column "surname"
+      token.firstName = existingUser.name
+      token.lastName = existingUser.surname
 
       return token
     },

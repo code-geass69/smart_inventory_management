@@ -4,8 +4,6 @@ import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import { CustomTooltip } from "@/components/custom-tooltip"
 import { Icons } from "@/components/icons"
-import { AppsMenu } from "@/components/nav/app/menus/apps-menu"
-// import { NotificationsMenu } from "@/components/nav/app/menus/notifications-menu"
 import { OrganizationMenu } from "@/components/nav/app/menus/organization-menu"
 import { QuickCreateMenu } from "@/components/nav/app/menus/quick-create-menu"
 import { ReferAndEarnMenu } from "@/components/nav/app/menus/refer-and-earn-menu"
@@ -51,7 +49,6 @@ export function Header(): JSX.Element {
         <OrganizationMenu />
 
         <div className="flex items-center justify-center">
-          <AppsMenu />
         </div>
       </div>
     </header>
