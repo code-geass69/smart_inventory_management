@@ -11,6 +11,7 @@ export async function GET() {
 
     console.log(`✅ Fetched ${allItems.length} items from the database.`)
     console.log("🔍 Preparing the data to be formatted for CSV...")
+
     const formattedItems = allItems.map((item) => ({
       name: item.name,
       categoryId: item.categoryId, 
@@ -36,17 +37,23 @@ export async function GET() {
       createdAt: item.createdAt,  
       updatedAt: item.updatedAt,
     }))
+
     console.log("🔍 Converting data to CSV format...")
     const json2csvParser = new Parser()
     const csvData = json2csvParser.parse(formattedItems)
 
     console.log("✅ Data successfully converted to CSV.")
 
+    // Get current date and time in a simpler format (YYYY-MM-DD_HH-MM-SS)
+    const timestamp = new Date().toISOString().replace(/[:.-]/g, "").slice(0, 19).replace("T", "_");  // Simple format like "2023-04-12_05-30-45"
+    const filename = `inventory_${timestamp}.csv`
+
     console.log("📤 Sending CSV file as response...")
+
     return new NextResponse(csvData, {
       headers: {
         "Content-Type": "text/csv",
-        "Content-Disposition": "attachment; filename=inventory.csv",
+        "Content-Disposition": `attachment; filename=${filename}`,
       },
     })
   } catch (error) {
