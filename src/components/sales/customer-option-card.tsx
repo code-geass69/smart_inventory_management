@@ -7,27 +7,31 @@ import { Icons } from "@/components/icons"
 import { type InventoryOption } from "@/types"
 import Balancer from "react-wrap-balancer"
 import Link from "next/link"
+import { importCustomersFromCsv } from "@/actions/sales/import-csv"
 
 interface OptionCardProps {
   option: InventoryOption
 }
 
 export function CustomerOptionCard({ option }: OptionCardProps) {
-const Icon = Icons[option.icon as keyof typeof Icons] ?? Icons["items"];
+  const Icon = Icons[option.icon as keyof typeof Icons] ?? Icons["items"]
   const fileInputRef = useRef<HTMLInputElement | null>(null)
 
+  // ✅ Handle CSV Upload
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
 
     const text = await file.text()
-    // placeholder: call importCustomersFromCsv(text) here when ready
-    console.log("📥 Imported file content:", text)
+
+    const result = await importCustomersFromCsv(text)
+    console.log("📥 Import result:", result)
   }
 
+  // ✅ Handle CSV Export
   const handleExport = async () => {
     try {
-      const response = await fetch("/api/items/export", {
+      const response = await fetch("/api/customers/export", {
         method: "GET",
       })
 
@@ -35,13 +39,13 @@ const Icon = Icons[option.icon as keyof typeof Icons] ?? Icons["items"];
         const blob = await response.blob()
         const link = document.createElement("a")
         link.href = URL.createObjectURL(blob)
-        link.download = "customers.csv" // still label it as customers.csv
+        link.download = "customers.csv"
         link.click()
       } else {
-        console.error("Error exporting (fallback: items export)")
+        console.error("❌ Error exporting customers")
       }
     } catch (error) {
-      console.error("❌ Error exporting fallback items CSV:", error)
+      console.error("❌ Error exporting CSV:", error)
     }
   }
 

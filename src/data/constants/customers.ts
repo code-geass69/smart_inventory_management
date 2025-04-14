@@ -13,14 +13,14 @@ export const customerOptions = [
     description: "Bulk import customer records via CSV",
     buttonText: "Import Customers",
     icon: "importCustomers",
-    href: "/app/sales/customers/import",
+    href: "",
   },
   {
     title: "Export Data",
     description: "Export customer data to CSV for backup or analysis",
     buttonText: "Export Data",
     icon: "exportCustomers",
-    href: "/app/sales/customers/export",
+    href: "",
   },
   {
     title: "View Customer",
