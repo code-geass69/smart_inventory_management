@@ -34,3 +34,10 @@ export const brandsSearchParamsSchema = searchParamsSchema.extend({
   name: z.string().optional(),
   category: z.string().optional(),
 })
+
+export const customerSearchParamsSchema = searchParamsSchema.extend({
+  name: z.string().optional(),
+  email: z.string().optional(),
+  phone_number: z.string().optional(),
+  address: z.string().optional(),
+})

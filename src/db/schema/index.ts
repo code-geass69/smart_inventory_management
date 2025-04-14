@@ -169,6 +169,19 @@ export const units = pgTable("unit", {
   abbreviation: varchar("abbreviation", { length: 8 }).notNull().unique(),
 })
 
+export const customers = pgTable("customer", {
+  id: serial("id").primaryKey(),  
+  name: varchar("name", { length: 255 }).notNull(),  
+  email: varchar("email", { length: 255 }).unique().notNull(),  
+  phone_number: varchar("phone_number", { length: 15 }).unique().notNull(),
+  address: text("address"),  // Customer's address
+  createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),  
+  updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow(),  
+})
+
+export type Customer = typeof customers.$inferSelect
+export type NewCustomer = typeof customers.$inferInsert
+
 export type User = typeof users.$inferSelect
 export type NewUser = typeof users.$inferInsert
 
