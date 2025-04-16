@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react"
 import { Pie, Bar } from "react-chartjs-2"
 import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement, CategoryScale, LinearScale, BarElement, LineElement, PointElement, RadialLinearScale, Filler } from "chart.js"
-import styles from "@/components/RealTimeChart.module.css"
+import styles from "@/styles/RealTimeChart.module.css"
 import { Radar, Doughnut } from "react-chartjs-2"
 
 ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement, RadialLinearScale, Filler, ArcElement, BarElement)

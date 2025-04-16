@@ -19,7 +19,7 @@ export function CustomersSubheader(): JSX.Element {
           <Link
             href="/app/sales/customers/new-customer"
             className={cn(buttonVariants(), "gap-1")}
-            aria-label="Add new item"
+            aria-label="Add new Customer"
           >
             <Icons.plus aria-hidden="true" className="h-4 w-4" />
             <span>New</span>

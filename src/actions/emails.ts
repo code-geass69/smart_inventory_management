@@ -21,7 +21,6 @@ export async function resendEmailVerificationLink(
 
     const emailVerificationToken = crypto.randomBytes(32).toString("base64url")
 
-    // TODO: Replace with prepared statement
     const userUpdated = await db
       .update(users)
       .set({ emailVerificationToken })
