@@ -66,7 +66,7 @@ export default async function AppSalesCustomersPage({
     <div>
       <Subheader
         buttonText="New Customer"
-        buttonLink="/app/sales/customers/new"
+        buttonLink="/app/sales/customers/new-customer"
       />
       <div className="p-5">
         <React.Suspense
