@@ -8,8 +8,8 @@ export default function HomePage(): JSX.Element {
       <nav className="flex justify-between items-center px-8 py-4 border-b border-gray-700">
         <div className="text-2xl font-extrabold">Arcline</div>
         <div className="space-x-6 text-base">
-          <Link href="/signin" className="hover:text-blue-400">Login</Link>
-          <Link href="/signup" className="hover:text-blue-400">Signup</Link>
+        <Link href="/signup" className="hover:text-blue-400">Admin</Link>
+        <Link href="/register" className="hover:text-emerald-400">Customer</Link>
         </div>
       </nav>
 
