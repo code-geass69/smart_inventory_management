@@ -31,6 +31,7 @@ export default function CustomerLoginPage() {
 
     if (res.ok && data.status === "success") {
       localStorage.setItem("customerId", data.customerId)
+      localStorage.setItem("customerEmail", form.email)
       router.push("/customer/place-order")
     } else {
       alert(data.message || "Login failed")
