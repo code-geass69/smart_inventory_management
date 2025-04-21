@@ -23,10 +23,10 @@ export function Sidebar() {
       <div>
         <div className="px-6 py-4 text-lg font-bold border-b border-gray-700 pt-9">Arcline Logistics</div>
         <nav className="flex flex-col gap-4 p-6 text-sm font-bold">
-          <Link href="/customer/home" className="hover:text-blue-400">Home</Link>
           <Link href="/customer/place-order" className="hover:text-blue-400">Place Order</Link>
           <Link href="/customer/orders" className="hover:text-blue-400">View Orders</Link>
           <Link href="/customer/track" className="hover:text-blue-400">Track Order</Link>
+          <Link href="/customer/invoice" className="hover:text-blue-400">Invoice</Link>
         </nav>
       </div>
       <div className="p-4 text-xs text-center border-t border-gray-700">

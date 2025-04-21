@@ -181,6 +181,38 @@ export const customers = pgTable("customer", {
   updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow(),  
 })
 
+export const orders = pgTable("orders", {
+  id: serial("id").primaryKey(),
+  customerId: integer("customer_id")
+    .references(() => customers.id)
+    .notNull(),
+  totalPrice: decimal("total_price", { precision: 10, scale: 2 })
+    .notNull()
+    .default("0"),
+  orderStatus: varchar("order_status", { length: 32 }).notNull().default("pending"), // e.g., "pending", "completed"
+  shippingAddress: text("shipping_address").notNull(),
+  paymentStatus: varchar("payment_status", { length: 32 }).notNull().default("pending"), // e.g., "pending", "paid"
+  createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow(),
+})
+
+export const orderItems = pgTable("order_items", {
+  id: serial("id").primaryKey(),
+  orderId: integer("order_id").references(() => orders.id).notNull(),
+  itemId: integer("item_id").references(() => items.id).notNull(),
+  quantity: integer("quantity").notNull(), // Quantity of each item ordered
+  price: decimal("price", { precision: 10, scale: 2 }).notNull(), // Price of the item when ordered
+  createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
+})
+
+export const ordersRelations = relations(orders, ({ one, many }) => ({
+  customer: one(customers, {
+    fields: [orders.customerId],
+    references: [customers.id],
+  }),
+  items: many(items), 
+}))
+
 export type Customer = typeof customers.$inferSelect
 export type NewCustomer = typeof customers.$inferInsert
 

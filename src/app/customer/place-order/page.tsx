@@ -1,119 +1,181 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
-
-type Item = {
-    id: number
-    name: string
-    sellingPrice: number
-    quantity: number
-}
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export default function PlaceOrderPage() {
-    const [items, setItems] = useState<Item[]>([])
-    const [quantities, setQuantities] = useState<Record<number, number>>({})
-    const router = useRouter()
+  const [items, setItems] = useState<any[]>([]); // Store available items
+  const [selectedItem, setSelectedItem] = useState<any>(null); // Store selected item
+  const [quantity, setQuantity] = useState(1); // Store quantity
+  const [orderDetails, setOrderDetails] = useState<any>({
+    category: "",
+    brand: "",
+    warehouse: "",
+    cp: 0,
+    sp: 0,
+  });
 
-    useEffect(() => {
-        const fetchItems = async () => {
-            const res = await fetch("/api/items/available")
-            const data = await res.json()
-            setItems(data)
-        }
+  // Initialize state for customerId and shippingAddress
+  const [customerId, setCustomerId] = useState<string | null>(null);
+  const [shippingAddress, setShippingAddress] = useState<string>("");
 
-        fetchItems()
-    }, [])
+  // Fetch customer details based on email stored in LocalStorage
+  useEffect(() => {
+    const fetchCustomerDetails = async () => {
+      const email = localStorage.getItem("customerEmail");
 
-    const handleQuantityChange = (id: number, value: number) => {
-        setQuantities((prev) => ({
-            ...prev,
-            [id]: value,
-        }))
-    }
+      if (email) {
+        const res = await fetch(`/api/customers/getCustomerDetails?email=${encodeURIComponent(email)}`);
+        const data = await res.json();
 
-    const handlePlaceOrder = async () => {
-        const customerId = localStorage.getItem("customerId")
-
-        if (!customerId) {
-            alert("You must be logged in as a customer to place an order.")
-            return
-        }
-
-        const selectedItems = Object.entries(quantities)
-            .filter(([_, qty]) => qty > 0)
-            .map(([id, qty]) => ({
-                itemId: Number(id),
-                quantity: qty,
-            }))
-
-        if (selectedItems.length === 0) {
-            alert("Please select at least one item.")
-            return
-        }
-
-        const res = await fetch("/api/customer/order", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ customerId, items: selectedItems }),
-        })
-
-        const result = await res.json()
-
-        if (result.status === "success") {
-            alert("Order placed successfully!")
-            router.push("/customer/orders")
+        if (data.status === "success") {
+          setCustomerId(data.customerId);
+          setShippingAddress(data.shippingAddress); // Set the shipping address from the response
         } else {
-            alert("Failed to place order.")
+          console.error("Failed to fetch customer details");
         }
+      }
+    };
+
+    fetchCustomerDetails();
+  }, []);
+
+  // Fetch available items from the backend
+  useEffect(() => {
+    const fetchItems = async () => {
+      const res = await fetch("/api/items/fetch");
+      const data = await res.json();
+
+      if (data.status === "success") {
+        setItems(data.data);
+      } else {
+        console.error("Error fetching items");
+      }
+    };
+
+    fetchItems();
+  }, []);
+
+  const handleItemSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selected = items.find((item) => item.itemId === Number(e.target.value)); // Use correct property name (itemId)
+
+    setSelectedItem(selected);
+
+    // Update the order details with category, brand, and warehouse info based on the selected item
+    if (selected) {
+      setOrderDetails({
+        category: selected.categoryName || "",
+        brand: selected.brandName || "",
+        warehouse: selected.warehouseLocation || "",
+        cp: selected.purchasePrice,
+        sp: selected.sellingPrice,
+      });
+    }
+  };
+
+  const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuantity(Number(e.target.value));
+  };
+
+  const calculateTotalPrice = () => {
+    return orderDetails.sp * quantity;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!selectedItem) {
+      alert("Please select an item before submitting the order.");
+      return;
+    }
+    const orderData = {
+      itemId: selectedItem.itemId,  // Use itemId from API response
+      quantity,
+      totalPrice: calculateTotalPrice(),
+      customerId: localStorage.getItem("customerId"), // Correctly retrieve customerId from localStorage
+      shippingAddress,
     }
 
-    return (
-        <>
-            <h1 className="text-2xl font-bold mb-6 text-white">Place Your Order</h1>
+    const res = await fetch("/api/customers/orders", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(orderData),
+    });
 
-            {items.length === 0 ? (
-                <p className="text-muted-foreground">No items available right now.</p>
-            ) : (
-                <div className="space-y-6">
-                    {items.map((item) => (
-                        <Card key={item.id}>
-                            <CardHeader>
-                                <CardTitle>{item.name}</CardTitle>
-                            </CardHeader>
-                            <CardContent className="flex items-center justify-between">
-                                <div>
-                                    <p className="text-sm text-muted-foreground">Price: ₹{item.sellingPrice}</p>
-                                    <p className="text-sm text-muted-foreground">In stock: {item.quantity}</p>
-                                </div>
-                                <div className="w-24">
-                                    <Label htmlFor={`qty-${item.id}`}>Qty</Label>
-                                    <Input
-                                        type="number"
-                                        id={`qty-${item.id}`}
-                                        min={0}
-                                        max={item.quantity}
-                                        value={quantities[item.id] || ""}
-                                        onChange={(e) =>
-                                            handleQuantityChange(item.id, parseInt(e.target.value || "0"))
-                                        }
-                                    />
-                                </div>
-                            </CardContent>
-                        </Card>
-                    ))}
+    const data = await res.json();
+    if (data.status === "success") {
+      alert("Order placed successfully!");
+      // Redirect to view orders page after placing the order
+      window.location.href = "/customer/view-orders";
+    } else {
+      alert("Order placement failed.");
+    }
+  };
 
-                    <Card>
-                        <CardFooter className="justify-end">
-                            <Button onClick={handlePlaceOrder}>Place Order</Button>
-                        </CardFooter>
-                    </Card>
-                </div>
-            )}
-        </>
-    )
+  return (
+    <div className="p-4">
+      <h2 className="text-2xl">Place Your Order</h2>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <Label htmlFor="item">Select Item</Label>
+          <select
+            id="item"
+            name="item"
+            onChange={handleItemSelect}
+            className="w-full p-2"
+          >
+            <option value="">Select an Item</option>
+            {items.map((item) => (
+              <option key={item.itemId} value={item.itemId}>
+                {item.itemName} {/* Correct field name */}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {selectedItem && (
+          <>
+            <div>
+              <Label>Category</Label>
+              <Input value={orderDetails.category} readOnly />
+            </div>
+            <div>
+              <Label>Brand</Label>
+              <Input value={orderDetails.brand} readOnly />
+            </div>
+            <div>
+              <Label>Warehouse</Label>
+              <Input value={orderDetails.warehouse} readOnly />
+            </div>
+            <div>
+              <Label>Cost Price (CP)</Label>
+              <Input value={orderDetails.cp} readOnly />
+            </div>
+            <div>
+              <Label>Selling Price (SP)</Label>
+              <Input value={orderDetails.sp} readOnly />
+            </div>
+            <div>
+              <Label>Quantity</Label>
+              <Input
+                type="number"
+                value={quantity}
+                onChange={handleQuantityChange}
+                min="1"
+                className="w-full p-2"
+              />
+            </div>
+            <div>
+              <Label>Total Price</Label>
+              <Input value={`₹${calculateTotalPrice()}`} readOnly />
+            </div>
+          </>
+        )}
+
+        <Button type="submit">Place Order</Button>
+      </form>
+    </div>
+  );
 }
