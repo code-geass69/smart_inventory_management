@@ -103,3 +103,7 @@ src/
     ├── og.ts                     // Open Graph validation schema
     ├── params.ts                 // URL parameters validation
     └── warehouses.ts             // Warehouse validation schema
+
+
+TODO: 
+CUstomer ----> View -----> order place -----> backend request ----> confirm -----> invoice ----> inventory 

@@ -8,7 +8,7 @@ export function Subheader(): JSX.Element {
   const { data: session } = useSession()
   const user = session?.user
 
-  const displayName = `${user?.firstName ?? ""} ${user?.lastName ?? ""}`.trim() || user?.name || "Guest"
+  const displayName = `${user?.firstName ?? ""} ${user?.lastName ?? ""}`.trim() || user?.name || "Admin"
   return (
     <div className="sticky top-0 z-[48] flex flex-col justify-between gap-6 border-b bg-tertiary px-5 pt-5 transition-all duration-300 ease-in-out">
       <div className="flex items-center gap-4">

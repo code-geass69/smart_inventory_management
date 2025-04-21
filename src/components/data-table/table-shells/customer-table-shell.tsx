@@ -9,7 +9,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { DataTable } from "@/components/data-table/data-table"
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header"
 
-type AwaitedCustomer = Pick<Customer, "id" | "name" | "email" | "phone_number" | "address">
+type AwaitedCustomer = Pick<Customer, "id" | "name" | "email" | "phone_number" | "address" | "state">
 
 interface CustomerTableShellProps {
     data: AwaitedCustomer[]
@@ -78,6 +78,12 @@ export function CustomerTableShell({
                 <DataTableColumnHeader column={column} title="Address" />
             ),
         },
+        {
+            accessorKey: "state",
+            header: ({ column }) => (
+                <DataTableColumnHeader column={column} title="State" />
+            ),
+        },
     ], [data])
 
     return (
@@ -89,6 +95,7 @@ export function CustomerTableShell({
                 searchableColumns={[
                     { id: "name", title: "Customer Name" },
                     { id: "email", title: "Email" },
+                    { id: "state", title: "State" }
                 ]}
             />
         </div>

@@ -176,6 +176,7 @@ export const customers = pgTable("customer", {
   phone_number: varchar("phone_number", { length: 15 }).unique().notNull(),
   address: text("address"),
   password: varchar("password", { length: 256 }).notNull(),
+  state: varchar("state", { length: 100 }).notNull(),
   createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),  
   updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow(),  
 })
