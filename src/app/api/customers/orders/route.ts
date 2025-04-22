@@ -1,16 +1,14 @@
 import { db } from "@/db"
 import { orders, orderItems, items } from "@/db/schema"
 import { NextResponse } from "next/server"
-import { sql } from "drizzle-orm" // Make sure to import the SQL method
+import { sql } from "drizzle-orm" // Ensure SQL method is imported
 
 export async function POST(req: Request) {
   try {
     const body = await req.json()
-    console.log("Request body:", body)
 
-    const { itemId, quantity, totalPrice, customerId, shippingAddress } = body
+    const { itemId, quantity, totalPrice, customerId, shippingAddress, paymentStatus } = body
 
-    // Fetch the item details from the database using raw SQL
     const [item] = await db
       .select()
       .from(items)
@@ -20,40 +18,37 @@ export async function POST(req: Request) {
     console.log("Fetched item:", item)
 
     if (!item) {
-      console.error(`Item with ID ${itemId} not found.`)
       return NextResponse.json({ status: "error", message: "Item not found" }, { status: 404 })
     }
 
     if (item.quantity < quantity) {
-      console.error(`Insufficient stock for item ${itemId}. Available: ${item.quantity}, Requested: ${quantity}`)
       return NextResponse.json({ status: "error", message: "Insufficient stock" }, { status: 400 })
     }
 
-    // Insert the order into the orders table
-    const order = await db.insert(orders).values({
+    const [order] = await db.insert(orders).values({
       customerId,
       totalPrice,
-      orderStatus: "pending",
+      orderStatus: "pending", 
       shippingAddress,
-      paymentStatus: "pending",
-    }).returning()
+      paymentStatus, 
+    }).returning(); 
 
-    console.log("Order inserted successfully:", order)
+    if (!order) {
+      return NextResponse.json({ status: "error", message: "Order creation failed" }, { status: 500 })
+    }
 
-    // Insert the order item into the order_items table
     await db.insert(orderItems).values({
-      orderId: order[0].id, // Use the correct order ID returned from the insert
+      orderId: order.id, 
       itemId,
       quantity,
       price: item.sellingPrice,
     })
 
-    // Update the quantity of the item in the items table
+    // Update the stock of the item in the inventory
     await db.update(items).set({
       quantity: item.quantity - quantity,
     }).where(sql`${items.id} = ${itemId}`)
 
-    console.log("Order placed successfully")
     return NextResponse.json({ status: "success", message: "Order placed successfully!" })
   } catch (error) {
     console.error("Error placing order:", error)

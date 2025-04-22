@@ -189,9 +189,9 @@ export const orders = pgTable("orders", {
   totalPrice: decimal("total_price", { precision: 10, scale: 2 })
     .notNull()
     .default("0"),
-  orderStatus: varchar("order_status", { length: 32 }).notNull().default("pending"), // e.g., "pending", "completed"
+  orderStatus: varchar("order_status", { length: 32 }).notNull().default("pending"),
   shippingAddress: text("shipping_address").notNull(),
-  paymentStatus: varchar("payment_status", { length: 32 }).notNull().default("pending"), // e.g., "pending", "paid"
+  paymentStatus: varchar("payment_status", { length: 32 }).notNull().default("cash on delivery"),
   createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow(),
 })
@@ -200,8 +200,8 @@ export const orderItems = pgTable("order_items", {
   id: serial("id").primaryKey(),
   orderId: integer("order_id").references(() => orders.id).notNull(),
   itemId: integer("item_id").references(() => items.id).notNull(),
-  quantity: integer("quantity").notNull(), // Quantity of each item ordered
-  price: decimal("price", { precision: 10, scale: 2 }).notNull(), // Price of the item when ordered
+  quantity: integer("quantity").notNull(),
+  price: decimal("price", { precision: 10, scale: 2 }).notNull(), 
   createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
 })
 

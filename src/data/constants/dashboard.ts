@@ -77,21 +77,21 @@ export const dashboardSalesActivityItems = [
   {
     quantity: 0,
     unit: "Qty",
-    label: "To be packed",
+    label: "Orders Pending",
   },
   {
     quantity: 0,
     unit: "Pkgs",
-    label: "To be shipped",
+    label: "Orders Accepted",
   },
   {
     quantity: 0,
     unit: "Pkgs",
-    label: "To be delivered",
+    label: "Orders Shipped",
   },
   {
     quantity: 0,
     unit: "Qty",
-    label: "To be invoiced",
+    label: "Orders Delivered",
   },
 ] satisfies DashboardSalesActivityItem[]
