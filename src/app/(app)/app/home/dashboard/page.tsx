@@ -8,7 +8,6 @@ import { ProductDetails } from "@/components/dashboard/product-details"
 import { PurchaseOrder } from "@/components/dashboard/purchase-order"
 import { SalesActivity } from "@/components/dashboard/sales-activity"
 import { SalesOrder } from "@/components/dashboard/sales-order"
-import { SalesOrderSummary } from "@/components/dashboard/sales-order-summary"
 import { TopSellingItems } from "@/components/dashboard/top-selling-items"
 
 export default async function AppHomeDashboardPage(): Promise<JSX.Element> {
@@ -33,10 +32,6 @@ export default async function AppHomeDashboardPage(): Promise<JSX.Element> {
         <div className="flex w-full flex-col gap-5 xl:flex-row">
           <PurchaseOrder />
           <SalesOrder />
-        </div>
-
-        <div className="flex w-full">
-          <SalesOrderSummary />
         </div>
       </div>
       <Footer />
