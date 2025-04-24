@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from "next/server"
 import { db } from "@/db"
-import { brands, categories as Category, items as Item } from "@/db/schema"
+import {
+  brands,
+  categories as Category,
+  items as Item,
+  orderItems as OrderItem,
+} from "@/db/schema"
 import { writeToBuffer } from "@fast-csv/format"
 import { eq, lt, sql } from "drizzle-orm"
 
@@ -55,7 +60,7 @@ const dynamicOptionHandlers: Record<string, KeywordReply> = {
     }
   },
 
-  "import items via csv": async () => {
+  "export items via csv": async () => {
     const itemRows = await db
       .select({
         name: Item.name,
@@ -80,7 +85,7 @@ const dynamicOptionHandlers: Record<string, KeywordReply> = {
       ]),
     ]
 
-    const csvBuffer = await writeToBuffer(itemRows, { headers: true })
+    const csvBuffer = await writeToBuffer(rows)
     const csvBase64 = csvBuffer.toString("base64")
 
     return {
@@ -89,6 +94,102 @@ const dynamicOptionHandlers: Record<string, KeywordReply> = {
         base64: csvBase64,
         fileName: "inventory-items.csv",
         rows,
+      },
+    }
+  },
+
+  "generate inventory sales": async () => {
+    const orderStats = await db
+      .select({
+        itemId: sql`${Item.id}`,
+        itemName: Item.name,
+        quantity: sql`SUM(${OrderItem.quantity})`.as("count"),
+        timesOrdered: sql`COUNT(${OrderItem.id})`.as("times_ordered"),
+      })
+      .from(OrderItem)
+      .leftJoin(Item, eq(OrderItem.itemId, Item.id))
+      .groupBy(Item.id, Item.name)
+
+    const quantityChart = orderStats.map((row) => ({
+      Item: row.itemName as string,
+      quantity: Number(row.quantity),
+    }))
+
+    const orderFrequencyChart = orderStats.map((row) => ({
+      Item: row.itemName as string,
+      timesOrdered: Number(row.timesOrdered),
+    }))
+
+    return {
+      replies: "📈 Inventory statistics generated.",
+      chartData: {
+        categoryChart: [],
+        brandChart: [],
+        itemChart: quantityChart,
+      },
+      summaryText: `• Total items with sales: ${quantityChart.length}\n• Highest sold: ${
+        quantityChart.length > 0
+          ? quantityChart.sort((a, b) => b.quantity - a.quantity)[0]?.Item ||
+            "N/A"
+          : "N/A"
+      }`,
+      additionalStats: {
+        frequency: orderFrequencyChart,
+      },
+    }
+  },
+
+  "download summary report": async () => {
+    const orderStats = await db
+      .select({
+        itemId: Item.id,
+        itemName: Item.name,
+        quantity: sql`COALESCE(SUM(${OrderItem.quantity}), 0)`.as("quantity"),
+        timesOrdered: sql`COUNT(${OrderItem.id})`.as("timesOrdered"),
+      })
+      .from(Item)
+      .leftJoin(OrderItem, eq(Item.id, OrderItem.itemId))
+      .groupBy(Item.id)
+
+    const sold = orderStats.filter((item) => Number(item.quantity) > 0)
+    const unsold = orderStats.filter((item) => Number(item.quantity) === 0)
+
+    const summaryLines = [
+      [`Total sold items`, `${sold.length}`],
+      [
+        `Best-selling item`,
+        `${sold.sort((a, b) => Number(b.quantity) - Number(a.quantity))[0]?.itemName || "N/A"}`,
+      ],
+      [
+        `Least-selling item`,
+        `${sold.sort((a, b) => Number(a.quantity) - Number(b.quantity))[0]?.itemName || "N/A"}`,
+      ],
+      [
+        `Unsold items (${unsold.length})`,
+        unsold.map((i) => i.itemName).join(", ") || "None",
+      ],
+      [
+        `Suggestion`,
+        `Consider reviewing unsold products or bundling them with best-sellers.`,
+      ],
+      [`Suggestion`, `Reorder top-selling items soon to avoid stockouts.`],
+      [
+        `Suggestion`,
+        `Investigate reasons for low-performing products and optimize listings.`,
+      ],
+    ]
+
+    const csvBuffer = await writeToBuffer(summaryLines, {
+      headers: ["Metric", "Details"],
+    })
+    const csvBase64 = csvBuffer.toString("base64")
+
+    return {
+      replies: "🧾 Summary report generated.",
+      csvPreview: {
+        base64: csvBase64,
+        fileName: "inventory-summary.csv",
+        rows: [["Metric", "Details"], ...summaryLines],
       },
     }
   },

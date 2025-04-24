@@ -24,10 +24,10 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import styles from "@/styles/helperScroll.module.css"
 
 const keywordOptions: Record<string, string[]> = {
-  CSV: ["📅 Import Items via CSV", "📄 Export inventory as CSV"],
+  CSV: ["📅 Export Items via CSV"],
   Stock: ["📊 Check stock analytics"],
-  Report: ["📈 Generate inventory statistics", "📄 Download summary report"],
-  Analytics: ["📊 View dashboard insights", "📈 Compare purchase vs selling trends"],
+  Report: ["📈 Generate inventory sales", "📄 Download summary report"],
+  Analytics: ["📊 View dashboard insights", "📈 Compare purchase vs sell trends"],
 }
 
 interface ChartData {
@@ -50,6 +50,7 @@ export function InstantHelperMenu(): JSX.Element {
   const [loading, setLoading] = useState(false)
   const [chartData, setChartData] = useState<ChartData>({ categoryChart: [], brandChart: [], itemChart: [] })
   const [chartInsights, setChartInsights] = useState<string>("")
+  const [orderFrequencyChart, setOrderFrequencyChart] = useState<{ Item: string; timesOrdered: number }[]>([])
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   function getGreeting() {
@@ -85,7 +86,7 @@ export function InstantHelperMenu(): JSX.Element {
 
         setMessages((prev) => [...prev, { from: "bot", text: filtered }])
 
-        if (text.toLowerCase().includes("import items via csv") && data.csvPreview) {
+        if (text.toLowerCase().includes("export items via csv") && data.csvPreview) {
           setMessages((prev) => [
             ...prev,
             {
@@ -98,6 +99,26 @@ export function InstantHelperMenu(): JSX.Element {
           ])
         }
 
+        if (text.toLowerCase().includes("download summary report") && data.csvPreview) {
+          setMessages((prev) => [
+            ...prev,
+            {
+              from: "bot",
+              text: "",
+              type: "summary-preview",
+              csvUrl: data.downloadUrl,
+              csvData: data.csvPreview.rows,
+            },
+          ])
+        }
+        
+        if (text.toLowerCase().includes("generate inventory sales") && data.chartData) {
+          setChartData(data.chartData)
+          setChartInsights(data.summaryText)
+          setOrderFrequencyChart(data.additionalStats?.frequency || [])
+          setMessages((prev) => [...prev, { from: "bot", text: "", type: "report-preview" }])
+        }
+        
         if (text.toLowerCase().includes("check stock analytics") && data.chartData) {
           setChartData(data.chartData)
           setChartInsights(data.summaryText)
@@ -135,7 +156,7 @@ export function InstantHelperMenu(): JSX.Element {
 
       <SheetContent side="right" className="flex flex-col h-full w-[400px] z-[99] p-4 overflow-x-hidden">
         <SheetHeader className="mb-2">
-          <SheetTitle>🧐 Instant Helper</SheetTitle>
+          <SheetTitle>🤖 Instant Helper</SheetTitle>
         </SheetHeader>
 
         <div className="mb-2 text-sm font-semibold">📌 Keywords</div>
@@ -242,7 +263,114 @@ export function InstantHelperMenu(): JSX.Element {
                 </div>
               )
             }
-    
+
+            if (msg.type === "report-preview") {
+              return (
+                <div key={idx} className="w-full">
+                  <Dialog>
+                    <div className="relative rounded bg-black/40 shadow-inner backdrop-blur-sm p-2">
+                      <div className="pointer-events-none opacity-60 blur-sm select-none space-y-2">
+                        <ResponsiveContainer width="100%" height={60}>
+                          <BarChart data={chartData.itemChart}>
+                            <Bar dataKey="quantity" fill="#ea580c" />
+                          </BarChart>
+                        </ResponsiveContainer>
+                        <ResponsiveContainer width="100%" height={60}>
+                          <BarChart data={orderFrequencyChart}>
+                            <Bar dataKey="timesOrdered" fill="#ea580c" />
+                          </BarChart>
+                        </ResponsiveContainer>
+                      </div>
+                      <DialogTrigger asChild>
+                        <div className="absolute inset-0 flex items-center justify-center z-10">
+                          <div className="text-white text-sm font-medium bg-transparent hover:text-orange-400 cursor-pointer">
+                            👁️ Preview Sales Report
+                          </div>
+                        </div>
+                      </DialogTrigger>
+                      <DialogContent className="bg-neutral-900 p-4 max-w-[90vw] md:max-w-[500px] text-white">
+                        <h4 className="text-white font-bold mb-2">📊 Inventory Sales Report</h4>
+                        <div className="mb-3 space-y-1">
+                          {chartInsights.split("•").filter((line) => line.trim()).map((line, i) => (
+                            <div key={i} className="text-sm text-black bg-gray-100 px-3 py-2 rounded flex items-center gap-2">
+                              <span>{line.trim()}</span>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="space-y-5">
+                          <div>
+                            <h5 className="font-semibold mb-1">Item-wise Sales Quantity</h5>
+                            <ResponsiveContainer width="100%" height={150}>
+                              <BarChart data={chartData.itemChart}>
+                                <XAxis dataKey="Item" stroke="#888" />
+                                <YAxis stroke="#888" />
+                                <Tooltip />
+                                <Bar dataKey="quantity" fill="#ea580c" />
+                              </BarChart>
+                            </ResponsiveContainer>
+                          </div>
+                          <div>
+                            <h5 className="font-semibold mb-1">Item-wise Order Frequency</h5>
+                            <ResponsiveContainer width="100%" height={150}>
+                              <BarChart data={orderFrequencyChart}>
+                                <XAxis dataKey="Item" stroke="#888" />
+                                <YAxis stroke="#888" />
+                                <Tooltip />
+                                <Bar dataKey="timesOrdered" fill="#ea580c" />
+                              </BarChart>
+                            </ResponsiveContainer>
+                          </div>
+                        </div>
+                      </DialogContent>
+                    </div>
+                  </Dialog>
+                </div>
+              )
+            }
+
+            if (msg.type === "summary-preview") {
+              return (
+                <div key={idx} className="w-full">
+                  <Dialog>
+                    <div className="relative rounded bg-black/30 shadow-inner backdrop-blur-sm p-2">
+                      <div className="text-center text-sm text-white opacity-50 blur-sm select-none">📋 Summary Report (Blurred)</div>
+                      <DialogTrigger asChild>
+                        <div className="absolute inset-0 flex items-center justify-center cursor-pointer z-10">
+                          <div className="text-white text-sm font-medium bg-transparent hover:text-orange-400">
+                            👁️ Preview Summary
+                          </div>
+                        </div>
+                      </DialogTrigger>
+                      <DialogContent className="bg-white text-black p-4 max-w-[90vw] md:max-w-[600px]">
+                        <h4 className="text-xl font-bold mb-2">📋 Inventory Summary Report</h4>
+                        <div className="overflow-x-auto max-h-[300px] border rounded">
+                          <table className="min-w-full text-sm table-fixed">
+                            <thead>
+                              <tr>{msg.csvData?.[0]?.map((col, i) => <th key={i} className="px-2 py-1 bg-gray-100 border">{col}</th>) ?? null}</tr>
+                            </thead>
+                            <tbody>
+                              {msg.csvData?.slice(1).map((row, i) => (
+                                <tr key={i}>{row.map((cell, j) => (
+                                  <td key={j} className="px-2 py-1 border">{cell}</td>
+                                ))}</tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                        <a
+                          href={msg.csvUrl}
+                          download="inventory-summary.csv"
+                          className="mt-4 inline-block bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded"
+                        >
+                          ⬇️ Export Summary
+                        </a>
+                      </DialogContent>
+                    </div>
+                  </Dialog>
+                </div>
+              )
+            }
+                                    
             const isOptionGroup = Array.isArray(msg.text) && msg.text.every((t) => typeof t === "string")
             const isFallback = typeof msg.text === "string" && msg.text.includes("I don't recognize") && msg.from === "bot"
 
