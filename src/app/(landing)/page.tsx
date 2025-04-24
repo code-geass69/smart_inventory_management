@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 import Link from "next/link"
 import Image from "next/image"
+import styles from "@/styles/scrollmain.module.css" 
 
 export default function HomePage(): JSX.Element {
   return (
@@ -11,7 +12,8 @@ export default function HomePage(): JSX.Element {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
-      className="flex flex-col min-h-screen bg-[#0B0F19] text-white font-sans"
+      className={`flex flex-col min-h-screen bg-[#0B0F19] text-white font-sans ${styles.scrollArea}`}
+      style={{ height: '100vh', overflowY: 'auto' }}
     >
       {/* Navbar */}
       <nav className="flex justify-between items-center px-8 py-4 border-b border-gray-700">
@@ -68,7 +70,9 @@ export default function HomePage(): JSX.Element {
       {/* Services Section */}
       <section id="learn-more" className="bg-[#111827] py-16 px-8">
         <h2 className="text-3xl font-semibold text-center mb-12">What We Offer</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 text-center">
+        <div 
+          className="grid grid-cols-1 md:grid-cols-3 gap-10 text-center"
+        >
           <motion.div
             whileHover={{ scale: 1.05 }}
             className="bg-[#1F2937] p-6 rounded-lg shadow-md hover:shadow-blue-500/20 transition-shadow"

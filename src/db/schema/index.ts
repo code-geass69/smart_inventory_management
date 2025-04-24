@@ -119,8 +119,8 @@ export const brands = pgTable("brands", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 100 }).notNull(),
   categoryId: integer("category_id")
-  .references(() => categories.id)
-  .notNull(),
+    .references(() => categories.id)
+    .notNull(),
   category: varchar("category", { length: 100 }).notNull(),
 })
 
@@ -128,13 +128,13 @@ export const items = pgTable("item", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 128 }).notNull(),
   categoryId: integer("category_id")
-  .references(() => categories.id)
-  .notNull(),
+    .references(() => categories.id)
+    .notNull(),
   warehouseId: integer("warehouse_id")
-  .references(() => warehouses.id) 
-  .notNull(),
+    .references(() => warehouses.id)
+    .notNull(),
   brandId: integer("brand_id")
-    .references(() => brands.id) 
+    .references(() => brands.id)
     .notNull(),
   barcode: varchar("barcode", { length: 64 }).notNull(),
   description: text("description"),
@@ -170,15 +170,15 @@ export const units = pgTable("unit", {
 })
 
 export const customers = pgTable("customer", {
-  id: serial("id").primaryKey(),  
-  name: varchar("name", { length: 255 }).notNull(),  
-  email: varchar("email", { length: 255 }).unique().notNull(),  
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  email: varchar("email", { length: 255 }).unique().notNull(),
   phone_number: varchar("phone_number", { length: 15 }).unique().notNull(),
   address: text("address"),
   password: varchar("password", { length: 256 }).notNull(),
   state: varchar("state", { length: 100 }).notNull(),
-  createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),  
-  updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow(),  
+  createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow(),
 })
 
 export const orders = pgTable("orders", {
@@ -189,19 +189,27 @@ export const orders = pgTable("orders", {
   totalPrice: decimal("total_price", { precision: 10, scale: 2 })
     .notNull()
     .default("0"),
-  orderStatus: varchar("order_status", { length: 32 }).notNull().default("pending"),
+  orderStatus: varchar("order_status", { length: 32 })
+    .notNull()
+    .default("pending"),
   shippingAddress: text("shipping_address").notNull(),
-  paymentStatus: varchar("payment_status", { length: 32 }).notNull().default("cash on delivery"),
+  paymentStatus: varchar("payment_status", { length: 32 })
+    .notNull()
+    .default("cash on delivery"),
   createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow(),
 })
 
 export const orderItems = pgTable("order_items", {
   id: serial("id").primaryKey(),
-  orderId: integer("order_id").references(() => orders.id).notNull(),
-  itemId: integer("item_id").references(() => items.id).notNull(),
+  orderId: integer("order_id")
+    .references(() => orders.id)
+    .notNull(),
+  itemId: integer("item_id")
+    .references(() => items.id)
+    .notNull(),
   quantity: integer("quantity").notNull(),
-  price: decimal("price", { precision: 10, scale: 2 }).notNull(), 
+  price: decimal("price", { precision: 10, scale: 2 }).notNull(),
   createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
 })
 
@@ -210,8 +218,32 @@ export const ordersRelations = relations(orders, ({ one, many }) => ({
     fields: [orders.customerId],
     references: [customers.id],
   }),
-  items: many(items), 
+  items: many(items),
 }))
+
+export const deliveryPartners = pgTable("delivery_partners", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id")
+    .references(() => users.id)
+    .notNull(),
+  name: varchar("name", { length: 100 }).notNull(),
+  phoneNumber: varchar("phone_number", { length: 15 }),
+  status: varchar("status", { length: 32 }).default("active"),
+  createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow(),
+})
+
+export const orderAssignments = pgTable("order_assignments", {
+  id: serial("id").primaryKey(),
+  orderId: integer("order_id")
+    .references(() => orders.id)
+    .notNull(),
+  deliveryPartnerId: integer("delivery_partner_id")
+    .references(() => deliveryPartners.id)
+    .notNull(),
+  status: varchar("status", { length: 32 }).default("pending"),
+  assignedAt: timestamp("assigned_at", { mode: "date" }).defaultNow().notNull(),
+})
 
 export type Order = typeof orders.$inferSelect
 export type NewOrder = typeof orders.$inferInsert

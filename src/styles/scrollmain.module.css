@@ -1,0 +1,24 @@
+.scrollArea {
+    scrollbar-width: thin;
+    scrollbar-color: #1E40AF transparent;  /* Blue color */
+  }
+  
+  .scrollArea::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .scrollArea::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .scrollArea::-webkit-scrollbar-thumb {
+    background-color: #1E40AF;  /* Blue color */
+    border-radius: 8px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+  
+  .scrollArea::-webkit-scrollbar-thumb:hover {
+    background-color: #1D4ED8;  /* Lighter blue for hover */
+  }
+  

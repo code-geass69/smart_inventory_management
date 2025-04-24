@@ -5,11 +5,11 @@ import { db } from "@/db"
 import { customers, type Customer } from "@/db/schema"
 import {
   customerSchema,
-  updateCustomerSchema,
   deleteCustomerSchema,
+  updateCustomerSchema,
   type AddCustomerFormInput,
-  type UpdateCustomerFormInput,
   type DeleteCustomerFormInput,
+  type UpdateCustomerFormInput,
 } from "@/validations/customers"
 import { eq } from "drizzle-orm"
 
@@ -42,7 +42,11 @@ export async function addCustomer(
 
     const newCustomer = await db
       .insert(customers)
-      .values(validatedInput.data)
+      .values({
+        ...validatedInput.data,
+        password: "defaultPassword", // Replace with appropriate logic to generate or handle the password
+        state: "active", // Replace with the appropriate default or derived value
+      })
       .returning()
 
     return newCustomer ? "success" : "error"
