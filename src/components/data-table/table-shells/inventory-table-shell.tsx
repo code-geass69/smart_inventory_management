@@ -121,10 +121,7 @@ export function InventoryTableShell({
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-[160px]">
             <DropdownMenuItem asChild className="cursor-pointer">
-              <Link
-                href={`/app/inventory/view-inventory/${row.original.id}`}
-                className="text-sm"
-              >
+              <Link href={`/app/inventory/${row.original.id}`} className="text-sm">
                 Edit
               </Link>
             </DropdownMenuItem>

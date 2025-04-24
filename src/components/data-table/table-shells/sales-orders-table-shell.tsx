@@ -122,7 +122,7 @@ export function SalesOrdersTableShell({
       id: "actions",
       cell: ({ row }) => (
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          {/* <DropdownMenuTrigger asChild>
             <Button
               aria-label="Open menu"
               variant="ghost"
@@ -130,18 +130,7 @@ export function SalesOrdersTableShell({
             >
               <Icons.moreHorizontal className="h-4 w-4" aria-hidden="true" />
             </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-[160px]">
-            <DropdownMenuSeparator />
-            <DropdownMenuItem asChild className="cursor-pointer">
-              <Link
-                href={`/app/sales/sales-orders/${row.original.id}/edit`}
-                className="text-sm"
-              >
-                Update Status
-              </Link>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
+          </DropdownMenuTrigger> */}
         </DropdownMenu>
       ),
     },

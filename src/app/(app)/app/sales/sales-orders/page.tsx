@@ -87,7 +87,6 @@ export default function AppSalesOrdersPageWrapper({
 
   return (
     <div>
-      <Subheader buttonText="New Sales Order" buttonLink="/app/sales/sales-orders/new-order" />
       <div className="p-5">
         {data.length === 0 ? (
           <DataTableSkeleton columnCount={8} isNewRowCreatable isRowsDeletable={false} />

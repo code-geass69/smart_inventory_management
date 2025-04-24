@@ -101,67 +101,57 @@ export const sidebarItems = [
       },
     ],
   },
-  {
-    title: "Purchases",
-    href: "/app/purchases",
-    icon: "shoppingBasket",
-    subitems: [
-      {
-        title: "Vendors",
-        href: "/app/purchases/vendors",
-        hrefPlus: "/app/purchases/vendors/new-vendor",
-      },
-      {
-        title: "Expenses",
-        href: "/app/purchases/expenses",
-        hrefPlus: "/app/purchases/expenses/new-expense",
-      },
-      {
-        title: "Purchase Orders",
-        href: "/app/purchases/purchase-orders",
-        hrefPlus: "/app/purchases/purchase-orders/new-order",
-      },
-      {
-        title: "Purchase Receives",
-        href: "/app/purchases/purchase-receives",
-        hrefPlus: "/app/purchases/purchase-receives/new-receive",
-      },
-      {
-        title: "Bills",
-        href: "/app/purchases/bills",
-        hrefPlus: "/app/purchases/bills/new-bill",
-      },
-      {
-        title: "Payments Made",
-        href: "/app/purchases/payments-made",
-        hrefPlus: "/app/purchases/payments-made/record-payment",
-      },
-      {
-        title: "Vendor Credits",
-        href: "/app/purchases/vendor-credits",
-        hrefPlus: "/app/purchases/vendor-credits/new-credit",
-      },
-    ],
-  },
+  // {
+  //   title: "Purchases",
+  //   href: "/app/purchases",
+  //   icon: "shoppingBasket",
+  //   subitems: [
+  //     {
+  //       title: "Vendors",
+  //       href: "/app/purchases/vendors",
+  //       hrefPlus: "/app/purchases/vendors/new-vendor",
+  //     },
+  //     {
+  //       title: "Expenses",
+  //       href: "/app/purchases/expenses",
+  //       hrefPlus: "/app/purchases/expenses/new-expense",
+  //     },
+  //     {
+  //       title: "Purchase Orders",
+  //       href: "/app/purchases/purchase-orders",
+  //       hrefPlus: "/app/purchases/purchase-orders/new-order",
+  //     },
+  //     {
+  //       title: "Purchase Receives",
+  //       href: "/app/purchases/purchase-receives",
+  //       hrefPlus: "/app/purchases/purchase-receives/new-receive",
+  //     },
+  //     {
+  //       title: "Bills",
+  //       href: "/app/purchases/bills",
+  //       hrefPlus: "/app/purchases/bills/new-bill",
+  //     },
+  //     {
+  //       title: "Payments Made",
+  //       href: "/app/purchases/payments-made",
+  //       hrefPlus: "/app/purchases/payments-made/record-payment",
+  //     },
+  //     {
+  //       title: "Vendor Credits",
+  //       href: "/app/purchases/vendor-credits",
+  //       hrefPlus: "/app/purchases/vendor-credits/new-credit",
+  //     },
+  //   ],
+  // },
   {
     title: "Warehouses",
     href: "/app/warehouses",
     icon: "warehouse",
   },
   {
-    title: "Integrations",
-    href: "/app/integrations",
-    icon: "integrations",
-  },
-  {
     title: "Reports",
     href: "/app/reports",
     icon: "barChart",
-  },
-  {
-    title: "Documents",
-    href: "/app/documents",
-    icon: "documents",
   },
 ] satisfies AppSidebarNavItem[]
 

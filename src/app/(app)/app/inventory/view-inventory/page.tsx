@@ -43,10 +43,10 @@ export default async function AppInventoryViewInventoryPage({
   .select({
     id: items.id,
     name: items.name,
-    category: categories.name, // Fetch category name instead of ID
-    brand: brands.name, // Fetch brand name instead of ID
-    reorderPoint: items.reorderPoint, // Add reorderPoint
-    sku: items.sku, // Add SKU
+    category: categories.name, 
+    brand: brands.name, 
+    reorderPoint: items.reorderPoint, 
+    sku: items.sku, 
     quantity: items.quantity,
     sellingPrice: items.sellingPrice,
     purchasePrice: items.purchasePrice,
@@ -56,8 +56,8 @@ export default async function AppInventoryViewInventoryPage({
     unit: items.unit,
   })
   .from(items)
-  .innerJoin(categories, sql`${categories.id} = ${items.categoryId}`) // Use sql for comparison
-  .innerJoin(brands, sql`${brands.id} = ${items.brandId}`) // Use sql for comparison
+  .innerJoin(categories, sql`${categories.id} = ${items.categoryId}`) 
+  .innerJoin(brands, sql`${brands.id} = ${items.brandId}`) 
   .limit(limit)
   .offset(offset)
   .where(name ? like(items.name, `%${name}%`) : undefined)
@@ -87,9 +87,9 @@ export default async function AppInventoryViewInventoryPage({
         <React.Suspense
           fallback={
             <DataTableSkeleton
-              columnCount={8} // Adjust column count based on new data
+              columnCount={8}
               isNewRowCreatable={true}
-              isRowsDeletable={false} // No delete option as you requested
+              isRowsDeletable={false}
             />
           }
         >
