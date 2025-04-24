@@ -1,4 +1,3 @@
-"use client" 
 import * as React from "react"
 import { Metadata } from "next"
 import { redirect } from "next/navigation"
@@ -9,12 +8,12 @@ import { auth } from "@/auth"
 import { db } from "@/db"
 import { orders, customers } from "@/db/schema"
 import { env } from "@/env.mjs"
-import { salesOrdersSearchParamsSchema } from "@/validations/params"
+import type { SearchParams } from "@/types"
 import { Subheader } from "@/components/nav/subheader"
 import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton"
 import { SalesOrdersTableShell } from "@/components/data-table/table-shells/sales-orders-table-shell"
-import { useToast } from "@/hooks/use-toast" // Import useToast for notifications
-import type { SearchParams } from "@/types"
+import { salesOrdersSearchParamsSchema } from "@/validations/params"
+
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
   title: "Sales Orders",
@@ -44,18 +43,18 @@ export default async function AppSalesOrdersViewPage({
     .select({
       id: orders.id,
       orderId: orders.id,
-      customerName: customers.name,
+      customerName: customers.name, 
       totalPrice: orders.totalPrice,
       orderStatus: orders.orderStatus,
       createdAt: orders.createdAt,
       updatedAt: orders.updatedAt,
     })
     .from(orders)
-    .innerJoin(customers, sql`${customers.id} = ${orders.customerId}`)
+    .innerJoin(customers, sql`${customers.id} = ${orders.customerId}`) // Ensure customers table is joined properly
     .limit(limit)
     .offset(offset)
-    .where(orderId ? like(orders.id, `%${orderId ?? ''}%`) : undefined)
-    .where(customerName ? like(customers.name, `%${customerName ?? ''}%`) : undefined)
+    .where(orderId ? like(orders.id, `%${orderId ?? ''}%`) : undefined) // Added safe null check
+    .where(customerName ? like(customers.name, `%${customerName ?? ''}%`) : undefined) // Use customers.name for the filter
     .orderBy(
       column && column in orders
         ? order === "asc"
@@ -74,30 +73,6 @@ export default async function AppSalesOrdersViewPage({
 
   const pageCount = Math.ceil(count / limit)
 
-  // Define the handleStatusChange function here
-  const { toast } = useToast() // To show notifications
-  const handleStatusChange = async (orderId: number, newStatus: string) => {
-    try {
-      const response = await fetch("/api/orders/update-status", {
-        method: "PUT",
-        body: JSON.stringify({ orderId, newStatus }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      const data = await response.json()
-
-      if (response.ok) {
-        toast.success(data.message)
-      } else {
-        toast.error(data.message || "Failed to update status")
-      }
-    } catch (error) {
-      toast.error("Error updating order status")
-      console.error("Error:", error)
-    }
-  }
-
   return (
     <div>
       <Subheader
@@ -114,11 +89,7 @@ export default async function AppSalesOrdersViewPage({
             />
           }
         >
-          <SalesOrdersTableShell
-            data={data}
-            pageCount={pageCount}
-            onStatusChange={handleStatusChange} // Pass the handleStatusChange function here
-          />
+          <SalesOrdersTableShell data={data} pageCount={pageCount} />
         </React.Suspense>
       </div>
     </div>
