@@ -7,7 +7,14 @@ export async function POST(req: Request) {
   try {
     const body = await req.json()
 
-    const { itemId, quantity, totalPrice, customerId, shippingAddress } = body
+    const {
+      itemId,
+      quantity,
+      totalPrice,
+      customerId,
+      shippingAddress,
+      paymentStatus,
+    } = body
 
     const [item] = await db
       .select()

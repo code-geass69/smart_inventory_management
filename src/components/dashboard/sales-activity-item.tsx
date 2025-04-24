@@ -1,14 +1,10 @@
 interface SalesActivityItemProps {
-  quantity: number
-  unit: string
-  label: string
+  quantity: number;
+  unit: string;
+  label: string;
 }
 
-export function SalesActivityItem({
-  quantity,
-  unit,
-  label,
-}: SalesActivityItemProps) {
+export function SalesActivityItem({ quantity, unit, label }: SalesActivityItemProps) {
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-1 border-r p-5 xl:py-0">
       <p className="text-3xl font-semibold">{quantity}</p>
@@ -17,5 +13,5 @@ export function SalesActivityItem({
         {label}
       </p>
     </div>
-  )
+  );
 }
