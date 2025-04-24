@@ -6,8 +6,8 @@ import { CustomTooltip } from "@/components/custom-tooltip"
 import { Icons } from "@/components/icons"
 import { OrganizationMenu } from "@/components/nav/app/menus/organization-menu"
 import { QuickCreateMenu } from "@/components/nav/app/menus/quick-create-menu"
-import { ReferAndEarnMenu } from "@/components/nav/app/menus/refer-and-earn-menu"
 import { Search } from "@/components/search"
+import { InstantHelperMenu } from "@/components/nav/app/menus/instant-helper-menu"
 
 export function Header(): JSX.Element {
   return (
@@ -23,8 +23,6 @@ export function Header(): JSX.Element {
             <Icons.recentActivities aria-hidden="true" className="h-4 w-4" />
           </Link>
         </CustomTooltip>
-
-        {/* 🟢 Moved Quick Create here */}
         <QuickCreateMenu />
 
         <Search />
@@ -32,9 +30,11 @@ export function Header(): JSX.Element {
 
       <div className="flex items-center justify-center gap-2">
         <div className="flex items-center justify-center">
-          <ReferAndEarnMenu />
-   
-
+       
+      <div className="flex items-center justify-center">
+        <InstantHelperMenu />
+        </div>
+  
           <CustomTooltip text="Settings">
             <Link
               href="/app/settings"
@@ -45,11 +45,7 @@ export function Header(): JSX.Element {
             </Link>
           </CustomTooltip>
         </div>
-
         <OrganizationMenu />
-
-        <div className="flex items-center justify-center">
-        </div>
       </div>
     </header>
   )

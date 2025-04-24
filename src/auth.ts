@@ -26,7 +26,7 @@ export const {
   session: {
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60, // 30 days
-    updateAge: 24 * 60 * 60,   // 24 hours
+    updateAge: 24 * 60 * 60, // 24 hours
   },
   events: {
     async linkAccount({ user }) {
@@ -38,7 +38,7 @@ export const {
       if (account?.provider !== "credentials") return true
 
       const existingUser = await getUserById(user.id)
-      return existingUser?.emailVerified ?? false
+      return !!existingUser?.emailVerified
     },
 
     async jwt({ token }) {

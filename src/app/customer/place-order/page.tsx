@@ -4,11 +4,12 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { toast } from "@/hooks/use-toast"
 
 export default function PlaceOrderPage() {
-  const [items, setItems] = useState<any[]>([]); // Store available items
-  const [selectedItem, setSelectedItem] = useState<any>(null); // Store selected item
-  const [quantity, setQuantity] = useState(1); // Store quantity
+  const [items, setItems] = useState<any[]>([]);
+  const [selectedItem, setSelectedItem] = useState<any>(null); 
+  const [quantity, setQuantity] = useState(1); 
   const [orderDetails, setOrderDetails] = useState<any>({
     category: "",
     brand: "",
@@ -16,12 +17,9 @@ export default function PlaceOrderPage() {
     cp: 0,
     sp: 0,
   });
-
-  // Initialize state for customerId and shippingAddress
   const [customerId, setCustomerId] = useState<string | null>(null);
   const [shippingAddress, setShippingAddress] = useState<string>("");
 
-  // Fetch customer details based on email stored in LocalStorage
   useEffect(() => {
     const fetchCustomerDetails = async () => {
       const email = localStorage.getItem("customerEmail");
@@ -42,7 +40,6 @@ export default function PlaceOrderPage() {
     fetchCustomerDetails();
   }, []);
 
-  // Fetch available items from the backend
   useEffect(() => {
     const fetchItems = async () => {
       const res = await fetch("/api/items/fetch");
@@ -63,7 +60,6 @@ export default function PlaceOrderPage() {
 
     setSelectedItem(selected);
 
-    // Update the order details with category, brand, and warehouse info based on the selected item
     if (selected) {
       setOrderDetails({
         category: selected.categoryName || "",
@@ -87,14 +83,19 @@ export default function PlaceOrderPage() {
     e.preventDefault();
 
     if (!selectedItem) {
-      alert("Please select an item before submitting the order.");
-      return;
+      toast({
+        title: "Missing Item",
+        description: "Please select an item before submitting the order.",
+        variant: "destructive",
+      })
+      return
     }
+
     const orderData = {
-      itemId: selectedItem.itemId,  // Use itemId from API response
+      itemId: selectedItem.itemId, 
       quantity,
       totalPrice: calculateTotalPrice(),
-      customerId: localStorage.getItem("customerId"), // Correctly retrieve customerId from localStorage
+      customerId: localStorage.getItem("customerId"),
       shippingAddress,
     }
 
@@ -106,11 +107,20 @@ export default function PlaceOrderPage() {
 
     const data = await res.json();
     if (data.status === "success") {
-      alert("Order placed successfully!");
-      // Redirect to view orders page after placing the order
-      window.location.href = "/customer/view-orders";
+      toast({
+      title: "Order Placed",
+      description: "Your order has been placed successfully!",
+    })
+    setTimeout(() => {
+      window.location.href = "/customer/view-orders"
+    }, 1000)
+
     } else {
-      alert("Order placement failed.");
+      toast({
+      title: "Order Failed",
+      description: data.message || "Something went wrong.",
+      variant: "destructive",
+    })
     }
   };
 

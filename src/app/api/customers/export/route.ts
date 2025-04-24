@@ -7,8 +7,6 @@ export async function GET() {
   try {
     const allCustomers = await db.select().from(customers)
 
-    console.log(`✅ Fetched ${allCustomers.length} customers from the database.`)
-
     const formattedCustomers = allCustomers.map((c) => ({
       name: c.name,
       email: c.email,
@@ -21,7 +19,11 @@ export async function GET() {
     const json2csvParser = new Parser()
     const csvData = json2csvParser.parse(formattedCustomers)
 
-    const timestamp = new Date().toISOString().replace(/[:.-]/g, "").slice(0, 19).replace("T", "_")
+    const timestamp = new Date()
+      .toISOString()
+      .replace(/[:.-]/g, "")
+      .slice(0, 19)
+      .replace("T", "_")
     const filename = `customers_${timestamp}.csv`
 
     return new NextResponse(csvData, {
@@ -32,6 +34,9 @@ export async function GET() {
     })
   } catch (error) {
     console.error("❌ Error exporting customers:", error)
-    return NextResponse.json({ status: "error", message: "Failed to export customers" }, { status: 500 })
+    return NextResponse.json(
+      { status: "error", message: "Failed to export customers" },
+      { status: 500 }
+    )
   }
 }
