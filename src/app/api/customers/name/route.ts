@@ -1,7 +1,7 @@
+import { NextRequest, NextResponse } from "next/server"
 import { db } from "@/db"
 import { customers } from "@/db/schema"
 import { eq } from "drizzle-orm"
-import { NextRequest, NextResponse } from "next/server"
 
 export async function GET(req: NextRequest) {
   const email = req.nextUrl.searchParams.get("email")
@@ -20,5 +20,5 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Not found" }, { status: 404 })
   }
 
-  return NextResponse.json({ name: result[0].name })
+  return NextResponse.json({ name: result[0]?.name ?? null })
 }

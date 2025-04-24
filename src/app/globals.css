@@ -1,0 +1,19 @@
+.chat-bubble {
+    max-width: 65%;
+    width: fit-content;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  .chat-bubble.bot {
+    pointer-events: none;
+    user-select: text;
+  }
+
+  
+  

@@ -1,14 +1,13 @@
+import { NextResponse } from "next/server"
 import { db } from "@/db"
 import { customers } from "@/db/schema"
-import { eq } from "drizzle-orm"
 import { compare } from "bcryptjs"
-import { NextResponse } from "next/server"
+import { eq } from "drizzle-orm"
 
 export async function POST(req: Request) {
   try {
     const { email, password } = await req.json()
 
-    // Find the customer by email
     const [customer] = await db
       .select()
       .from(customers)
@@ -21,7 +20,6 @@ export async function POST(req: Request) {
       )
     }
 
-    // Check password
     const isValid = await compare(password, customer.password)
 
     if (!isValid) {
@@ -30,8 +28,6 @@ export async function POST(req: Request) {
         { status: 401 }
       )
     }
-
-    // Return customerId — you can later replace this with JWT/session if needed
     return NextResponse.json({
       status: "success",
       message: "Login successful",

@@ -1,4 +1,5 @@
 import "@/styles/globals.css"
+
 import type { Metadata, Viewport } from "next"
 import { env } from "@/env.mjs"
 import { fontInter } from "@/config/fonts"

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { toast } from "@/hooks/use-toast"
 
 export default function PlaceOrderPage() {
   const [items, setItems] = useState<any[]>([]);
@@ -16,13 +17,10 @@ export default function PlaceOrderPage() {
     cp: 0,
     sp: 0,
   });
-
-  // Initialize state for customerId, shippingAddress, and paymentMethod
   const [customerId, setCustomerId] = useState<string | null>(null);
   const [shippingAddress, setShippingAddress] = useState<string>("");
   const [paymentMethod, setPaymentMethod] = useState<string>(""); // New state for payment method
 
-  // Fetch customer details based on email stored in LocalStorage
   useEffect(() => {
     const fetchCustomerDetails = async () => {
       const email = localStorage.getItem("customerEmail");
@@ -90,12 +88,17 @@ export default function PlaceOrderPage() {
     e.preventDefault();
 
     if (!selectedItem) {
-      alert("Please select an item before submitting the order.");
-      return;
+      toast({
+        title: "Missing Item",
+        description: "Please select an item before submitting the order.",
+        variant: "destructive",
+      })
+      return
     }
 
+
     const orderData = {
-      itemId: selectedItem.itemId,
+      itemId: selectedItem.itemId, 
       quantity,
       totalPrice: calculateTotalPrice(),
       customerId: localStorage.getItem("customerId"),
@@ -111,10 +114,20 @@ export default function PlaceOrderPage() {
 
     const data = await res.json();
     if (data.status === "success") {
-      alert("Order placed successfully!");
-      window.location.href = "/customer/view-orders";
+      toast({
+      title: "Order Placed",
+      description: "Your order has been placed successfully!",
+    })
+    setTimeout(() => {
+      window.location.href = "/customer/view-orders"
+    }, 1000)
+
     } else {
-      alert("Order placement failed.");
+      toast({
+      title: "Order Failed",
+      description: data.message || "Something went wrong.",
+      variant: "destructive",
+    })
     }
   };
 
