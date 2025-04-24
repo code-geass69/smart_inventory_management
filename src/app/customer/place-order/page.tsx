@@ -10,9 +10,6 @@ export default function PlaceOrderPage() {
   const [items, setItems] = useState<any[]>([]);
   const [selectedItem, setSelectedItem] = useState<any>(null); 
   const [quantity, setQuantity] = useState(1); 
-  const [items, setItems] = useState<any[]>([]);
-  const [selectedItem, setSelectedItem] = useState<any>(null); 
-  const [quantity, setQuantity] = useState(1); 
   const [orderDetails, setOrderDetails] = useState<any>({
     category: "",
     brand: "",
@@ -104,7 +101,6 @@ export default function PlaceOrderPage() {
       itemId: selectedItem.itemId, 
       quantity,
       totalPrice: calculateTotalPrice(),
-      customerId: localStorage.getItem("customerId"),
       customerId: localStorage.getItem("customerId"),
       shippingAddress,
       paymentStatus: paymentMethod,
