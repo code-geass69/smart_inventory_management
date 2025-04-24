@@ -41,3 +41,11 @@ export const customerSearchParamsSchema = searchParamsSchema.extend({
   phone_number: z.string().optional(),
   address: z.string().optional(),
 })
+
+export const salesOrdersSearchParamsSchema = z.object({
+  page: z.string().transform((val) => parseInt(val, 10)).default("1"),
+  per_page: z.string().transform((val) => parseInt(val, 10)).default("10"),
+  sort: z.string().optional(),
+  orderId: z.string().optional(),
+  customerName: z.string().optional(),
+});

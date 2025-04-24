@@ -213,6 +213,12 @@ export const ordersRelations = relations(orders, ({ one, many }) => ({
   items: many(items), 
 }))
 
+export type Order = typeof orders.$inferSelect
+export type NewOrder = typeof orders.$inferInsert
+
+export type OrderItem = typeof orderItems.$inferSelect
+export type NewOrderItem = typeof orderItems.$inferInsert
+
 export type Customer = typeof customers.$inferSelect
 export type NewCustomer = typeof customers.$inferInsert
 
