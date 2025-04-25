@@ -1,6 +1,9 @@
 type IconProps = React.HTMLAttributes<SVGElement>
+import { AlertTriangle } from "lucide-react"
+
 
 export const Icons = {
+  alertTriangle: AlertTriangle,
   logo: (props: IconProps) => (
     <svg
       {...props}

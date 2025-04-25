@@ -65,40 +65,40 @@ export const sidebarItems = [
         href: "/app/sales/sales-orders",
         hrefPlus: "/app/sales/sales-orders/new-order",
       },
-      {
-        title: "Packages",
-        href: "/app/sales/packages",
-        hrefPlus: "/app/sales/packages/new-package",
-      },
-      {
-        title: "Shipments",
-        href: "/app/sales/shipments",
-        hrefPlus: "/app/sales/shipments/new-shipment",
-      },
-      {
-        title: "Invoices",
-        href: "/app/sales/invoices",
-        hrefPlus: "/app/sales/invoices/new-invoice",
-      },
-      {
-        title: "Sales Receipts",
-        href: "/app/sales/sales-receipts",
-        hrefPlus: "/app/sales/sales-receipts/new-receipt",
-      },
-      {
-        title: "Payments Received",
-        href: "/app/sales/payments-received",
-        hrefPlus: "/app/sales/payments-received/record-payment",
-      },
-      {
-        title: "Sales Returns",
-        href: "/app/sales/sales-returns",
-      },
-      {
-        title: "Credit Notes",
-        href: "/app/sales/credit-notes",
-        hrefPlus: "/app/sales/credit-notes/new-note",
-      },
+//      {
+//        title: "Packages",
+//        href: "/app/sales/packages",
+//        hrefPlus: "/app/sales/packages/new-package",
+//      },
+//      {
+//        title: "Shipments",
+//        href: "/app/sales/shipments",
+//        hrefPlus: "/app/sales/shipments/new-shipment",
+//      },
+//      {
+//        title: "Invoices",
+//        href: "/app/sales/invoices",
+//        hrefPlus: "/app/sales/invoices/new-invoice",
+//      },
+//      {
+//        title: "Sales Receipts",
+//        href: "/app/sales/sales-receipts",
+//        hrefPlus: "/app/sales/sales-receipts/new-receipt",
+//      },
+//      {
+//        title: "Payments Received",
+//        href: "/app/sales/payments-received",
+//        hrefPlus: "/app/sales/payments-received/record-payment",
+//      },
+//      {
+//        title: "Sales Returns",
+//        href: "/app/sales/sales-returns",
+//      },
+//      {
+//        title: "Credit Notes",
+//        href: "/app/sales/credit-notes",
+//        hrefPlus: "/app/sales/credit-notes/new-note",
+//      },
     ],
   },
   // {
