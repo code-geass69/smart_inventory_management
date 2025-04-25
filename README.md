@@ -1,10 +1,7 @@
-# Quantum Stash
-
+***Arcline Logistics***
 **WORK IN PROGRESS**
 
-Quantum Stash is an open-source Software as a Service (SaaS) web application designed for efficient inventory management.
-
-Tailored for e-commerce companies, it is versatile enough to meet the needs of any business requiring meticulous stock control. Explore the power of Quantum Stash to streamline your operations, providing a comprehensive solution for overseeing your stock and optimizing business processes.
+Tailored for e-commerce companies, it is versatile enough to meet the needs of any business requiring meticulous stock control. Explore the power of Arcline Logistics to streamline your operations, providing a comprehensive solution for overseeing your stock and optimizing business processes.
 
 The project serves as my portfolio demo piece, showcasing my skills in developing full-stack applications involving advanced features and techniques, such as:
 
