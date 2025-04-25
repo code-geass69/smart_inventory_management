@@ -45,7 +45,6 @@ export async function importItemsFromCsv(fileBuffer: string): Promise<string> {
         throw new Error("Invalid CSV format")
       }
       const input = parsed.data
-      // Lookup category
       const [category] = await db
         .select()
         .from(categories)

@@ -16,6 +16,7 @@ export async function GET() {
         warehouseLocation: warehouses.location,
         sellingPrice: items.sellingPrice,
         purchasePrice: items.purchasePrice,
+        quantity: items.quantity,
       })
       .from(items)
       .leftJoin(categories, sql`${items.categoryId} = ${categories.id}`) 

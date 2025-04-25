@@ -1,4 +1,11 @@
 "use client";
+import {
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectValue,
+} from "@/components/ui/select"
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
@@ -20,6 +27,8 @@ export default function PlaceOrderPage() {
   const [customerId, setCustomerId] = useState<string | null>(null);
   const [shippingAddress, setShippingAddress] = useState<string>("");
   const [paymentMethod, setPaymentMethod] = useState<string>(""); // New state for payment method
+  const [showStockModal, setShowStockModal] = useState(false);
+  const [maxAllowedQty, setMaxAllowedQty] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchCustomerDetails = async () => {
@@ -73,8 +82,16 @@ export default function PlaceOrderPage() {
   };
 
   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuantity(Number(e.target.value));
+    const enteredQty = Number(e.target.value);
+    if (selectedItem && enteredQty > selectedItem.quantity) {
+      setMaxAllowedQty(selectedItem.quantity);
+      setShowStockModal(true);
+      setQuantity(selectedItem.quantity); // restrict it
+    } else {
+      setQuantity(enteredQty);
+    }
   };
+  
 
   const handlePaymentMethodChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setPaymentMethod(e.target.value);
@@ -130,28 +147,27 @@ export default function PlaceOrderPage() {
     })
     }
   };
+  
 
   return (
     <div className="p-4">
       <h2 className="text-2xl">Place Your Order</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
+      <div>
           <Label htmlFor="item">Select Item</Label>
-          <select
-            id="item"
-            name="item"
-            onChange={handleItemSelect}
-            className="w-full p-2"
-          >
-            <option value="">Select an Item</option>
-            {items.map((item) => (
-              <option key={item.itemId} value={item.itemId}>
-                {item.itemName} {/* Correct field name */}
-              </option>
-            ))}
-          </select>
+          <Select onValueChange={(val) => handleItemSelect({ target: { value: val } } as any)}>
+            <SelectTrigger className="w-full border border-gray-300 rounded px-3 py-2 bg-white text-black">
+              <SelectValue placeholder="Select an Item" />
+            </SelectTrigger>
+            <SelectContent className="bg-white text-black">
+              {items.map((item) => (
+                <SelectItem key={item.itemId} value={item.itemId.toString()}>
+                  {item.itemName}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
-
         {selectedItem && (
           <>
             <div>
@@ -210,6 +226,24 @@ export default function PlaceOrderPage() {
 
         <Button type="submit">Place Order</Button>
       </form>
+      {showStockModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white text-black rounded-md p-6 w-full max-w-md shadow-lg">
+            <h3 className="text-xl font-semibold mb-3">⚠️ Stock Limit Exceeded</h3>
+            <p className="mb-4">
+              Only <span className="font-bold">{maxAllowedQty}</span> units available right now. Stock will be renewed soon.
+            </p>
+            <div className="flex justify-end gap-4">
+              <Button
+                variant="outline"
+                onClick={() => setShowStockModal(false)}
+              >
+                Okay
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
