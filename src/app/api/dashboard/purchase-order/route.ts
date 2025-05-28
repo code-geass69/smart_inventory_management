@@ -7,10 +7,10 @@ export async function GET() {
   try {
     // Query to get total quantity and cost
     const purchaseOrderResult = await db
-      .select([
-        sql`SUM(${orderItems.quantity}) AS total_quantity_ordered`,
-        sql`SUM(${orderItems.quantity} * ${orderItems.price}) AS total_cost`
-      ])
+      .select({
+        total_quantity_ordered: sql`SUM(${orderItems.quantity})`.as("total_quantity_ordered"),
+        total_cost: sql`SUM(${orderItems.quantity} * ${orderItems.price})`.as("total_cost"),
+      })
       .from(orderItems)
       .execute();
 
