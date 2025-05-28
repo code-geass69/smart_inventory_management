@@ -19,7 +19,21 @@ import { DataTable } from "@/components/data-table/data-table"
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header"
 import { Icons } from "@/components/icons"
 
-type AwaitedItem = Pick<Item, "id" | "name" | "brandId" | "quantity" | "sellingPrice" | "unit" | "reorderPoint" | "sku" | "categoryId">
+type AwaitedItem = {
+  id: number
+  name: string
+  category: string
+  brand: string
+  reorderPoint: number
+  sku: string
+  quantity: number
+  sellingPrice: string
+  purchasePrice: string
+  taxRate: string
+  createdAt: Date
+  updatedAt: Date | null
+  unit: string
+}
 
 interface InventoryTableShellProps {
   data: AwaitedItem[]
@@ -30,8 +44,6 @@ export function InventoryTableShell({
   data,
   pageCount,
 }: InventoryTableShellProps): JSX.Element {
-  const { toast } = useToast()
-  const router = useRouter()
   const [selectedRowIds, setSelectedRowIds] = React.useState<number[]>([])
 
   const columns = React.useMemo<ColumnDef<AwaitedItem, unknown>[]>(() => [

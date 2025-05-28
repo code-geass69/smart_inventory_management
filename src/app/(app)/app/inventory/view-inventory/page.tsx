@@ -1,6 +1,6 @@
 import * as React from "react"
 import { Metadata } from "next"
-import { redirect, useRouter } from "next/navigation"
+import { redirect } from "next/navigation"
 import { unstable_noStore as noStore } from "next/cache"
 import { asc, desc, like, sql } from "drizzle-orm"
 

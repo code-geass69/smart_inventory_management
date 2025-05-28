@@ -8,7 +8,6 @@ import { type Brand } from "@/db/schema"
 import type { ColumnDef } from "@tanstack/react-table"
 
 import { useToast } from "@/hooks/use-toast"
-import { formatDate } from "@/lib/utils"
 import {
   AlertDialog,
   AlertDialogAction,
