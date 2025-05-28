@@ -8,7 +8,6 @@ import { OrganizationMenu } from "@/components/nav/app/menus/organization-menu"
 import { QuickCreateMenu } from "@/components/nav/app/menus/quick-create-menu"
 import { Search } from "@/components/search"
 import { InstantHelperMenu } from "@/components/nav/app/menus/instant-helper-menu"
-import { AlertTriangle } from "lucide-react"
 
 export function Header(): JSX.Element {
   return (

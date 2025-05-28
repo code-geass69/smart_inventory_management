@@ -1,8 +1,6 @@
 import type { NextAuthConfig } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import EmailProvider from "next-auth/providers/email"
-import GitHubProvider from "next-auth/providers/github"
-import GoogleProvider from "next-auth/providers/google"
 import { getUserByEmail } from "@/actions/users"
 import { env } from "@/env.mjs"
 import { signInWithPasswordSchema } from "@/validations/auth"
@@ -14,16 +12,6 @@ import { MagicLinkEmail } from "@/components/emails/magic-link-email"
 
 export default {
   providers: [
-    GoogleProvider({
-      clientId: env.GOOGLE_ID,
-      clientSecret: env.GOOGLE_SECRET,
-      allowDangerousEmailAccountLinking: true,
-    }),
-    GitHubProvider({
-      clientId: env.GITHUB_ID,
-      clientSecret: env.GITHUB_SECRET,
-      allowDangerousEmailAccountLinking: true,
-    }),
     CredentialsProvider({
       async authorize(rawCredentials) {
         const validatedCredentials =

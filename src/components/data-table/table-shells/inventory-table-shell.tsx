@@ -7,12 +7,10 @@ import { type Item } from "@/db/schema"
 import type { ColumnDef } from "@tanstack/react-table"
 
 import { useToast } from "@/hooks/use-toast"
-import { formatDate } from "@/lib/utils"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
@@ -21,7 +19,7 @@ import { DataTable } from "@/components/data-table/data-table"
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header"
 import { Icons } from "@/components/icons"
 
-type AwaitedItem = Pick<Item, "id" | "name" | "category" | "brand" | "quantity" | "sellingPrice" | "unit" | "reorderPoint" | "sku">
+type AwaitedItem = Pick<Item, "id" | "name" | "brandId" | "quantity" | "sellingPrice" | "unit" | "reorderPoint" | "sku" | "categoryId">
 
 interface InventoryTableShellProps {
   data: AwaitedItem[]
