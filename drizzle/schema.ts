@@ -133,10 +133,9 @@ export const orders = pgTable("orders", {
 	id: serial("id").primaryKey().notNull(),
 	customerId: integer("customer_id").notNull(),
 	totalPrice: numeric("total_price", { precision: 10, scale:  2 }).default('0').notNull(),
-	orderStatus: varchar("order_status", { length: 32 }).default('pending'::character varying).notNull(),
+	orderStatus: varchar("order_status", { length: 32 }).default('pending').notNull(),
 	shippingAddress: text("shipping_address").notNull(),
-	paymentStatus: varchar("payment_status", { length: 32 }).default('cash on delivery'::character varying).notNull(),
-	createdAt: timestamp("created_at", { mode: 'string' }).defaultNow().notNull(),
+	paymentStatus: varchar("payment_status", { length: 32 }).default('cash on delivery').notNull(),	createdAt: timestamp("created_at", { mode: 'string' }).defaultNow().notNull(),
 	updatedAt: timestamp("updated_at", { mode: 'string' }).defaultNow(),
 });
 
@@ -145,8 +144,7 @@ export const deliveryPartners = pgTable("delivery_partners", {
 	userId: text("user_id").notNull(),
 	name: varchar("name", { length: 100 }).notNull(),
 	phoneNumber: varchar("phone_number", { length: 15 }),
-	status: varchar("status", { length: 32 }).default('active'::character varying),
-	createdAt: timestamp("created_at", { mode: 'string' }).defaultNow().notNull(),
+	status: varchar("status", { length: 32 }).default('active'),	createdAt: timestamp("created_at", { mode: 'string' }).defaultNow().notNull(),
 	updatedAt: timestamp("updated_at", { mode: 'string' }).defaultNow(),
 });
 
@@ -154,7 +152,7 @@ export const orderAssignments = pgTable("order_assignments", {
 	id: serial("id").primaryKey().notNull(),
 	orderId: integer("order_id").notNull(),
 	deliveryPartnerId: integer("delivery_partner_id").notNull(),
-	status: varchar("status", { length: 32 }).default('pending'::character varying),
+	status: varchar("status", { length: 32 }).default('pending'),
 	assignedAt: timestamp("assigned_at", { mode: 'string' }).defaultNow().notNull(),
 });
 
