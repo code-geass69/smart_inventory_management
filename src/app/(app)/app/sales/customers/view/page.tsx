@@ -2,8 +2,8 @@ import * as React from "react"
 import { Metadata } from "next"
 import { redirect } from "next/navigation"
 import { unstable_noStore as noStore } from "next/cache"
-import { asc, desc, like, sql } from "drizzle-orm"
-
+import { like, sql } from "drizzle-orm"
+import { asc, desc, type AnyColumn } from "drizzle-orm";
 import { auth } from "@/auth"
 import { db } from "@/db"
 import { customers } from "@/db/schema"
@@ -37,19 +37,17 @@ export default async function AppSalesCustomersPage({
   const offset = fallbackPage > 0 ? (fallbackPage - 1) * limit : 0
 
   const [column, order] = (sort?.split(".") as [keyof typeof customers | undefined, "asc" | "desc" | undefined]) ?? ["createdAt", "desc"]
+  const sortColumn: AnyColumn =
+    column && column in customers
+      ? customers[column as keyof typeof customers] as AnyColumn
+      : customers.id
 
   noStore()
   const data = await db
     .select()
     .from(customers)
     .where(name ? like(customers.name, `%${name}%`) : undefined)
-    .orderBy(
-      column && column in customers
-        ? order === "asc"
-          ? asc(customers[column])
-          : desc(customers[column])
-        : desc(customers.id)
-    )
+    .orderBy(order === "asc" ? asc(sortColumn) : desc(sortColumn))
     .limit(limit)
     .offset(offset)
 
