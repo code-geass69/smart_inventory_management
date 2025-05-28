@@ -1,25 +1,17 @@
 "use client"
 
 import * as React from "react"
-import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { type Order } from "@/db/schema"
 import type { ColumnDef } from "@tanstack/react-table"
 
 import { useToast } from "@/hooks/use-toast"
 import { ConfirmStatusChangeModal } from "@/components/sales/ConfirmStatusChangeModal"
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
+  DropdownMenu
 } from "@/components/ui/dropdown-menu"
-import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { DataTable } from "@/components/data-table/data-table"
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header"
-import { Icons } from "@/components/icons"
 import { useState } from "react"
 
 type AwaitedOrder = {
@@ -44,8 +36,6 @@ export function SalesOrdersTableShell({
   pageCount,
   onStatusChange,
 }: SalesOrdersTableShellProps): JSX.Element {
-  const { toast } = useToast()
-  const router = useRouter()
   const [selectedRowIds, setSelectedRowIds] = useState<number[]>([])
   const [modalOpen, setModalOpen] = useState(false)
   const [selectedOrderId, setSelectedOrderId] = useState<number | null>(null)

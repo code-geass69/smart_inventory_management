@@ -26,7 +26,7 @@ export default function PlaceOrderPage() {
   });
   const [customerId, setCustomerId] = useState<string | null>(null);
   const [shippingAddress, setShippingAddress] = useState<string>("");
-  const [paymentMethod, setPaymentMethod] = useState<string>(""); // New state for payment method
+  const [paymentMethod, setPaymentMethod] = useState<string>(""); 
   const [showStockModal, setShowStockModal] = useState(false);
   const [maxAllowedQty, setMaxAllowedQty] = useState<number | null>(null);
 

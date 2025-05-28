@@ -33,7 +33,7 @@ export function QuickCreateMenu() {
     {quickCreateItems.map((item) => {
       const Icon = Icons[item.icon as keyof typeof Icons]
       return (
-        <div key={item.title} className="min-w-[220px] flex-shrink-0">
+        <div key={item.title} className="min-w-[220px] shrink-0">
           <div className="flex items-center gap-2 mb-2 font-semibold">
             <Icon className="h-4 w-4" />
             {item.title}

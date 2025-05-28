@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import { BoxIcon, CalendarIcon, CheckCircledIcon, FileTextIcon, HomeIcon, IdCardIcon, InfoCircledIcon } from "@radix-ui/react-icons";
+import { BoxIcon, CalendarIcon, CheckCircledIcon, FileTextIcon, HomeIcon, IdCardIcon } from "@radix-ui/react-icons";
 
 const InvoiceDownload = forwardRef(({ order }: { order: any }, ref: React.Ref<HTMLDivElement>) => {
   if (!order) return null;

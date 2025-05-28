@@ -1,5 +1,4 @@
-import Link from "next/link"
-import { useRouter } from "next/navigation"
+
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import { CustomTooltip } from "@/components/custom-tooltip"
@@ -15,7 +14,6 @@ interface SubheaderProps {
 
 export function Subheader({
   buttonText,
-  buttonLink,
   loading = false,
   onClick,
 }: SubheaderProps): JSX.Element {

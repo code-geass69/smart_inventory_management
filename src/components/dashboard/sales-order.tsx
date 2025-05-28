@@ -48,7 +48,7 @@ export function SalesOrder(): JSX.Element {
         </div>
 
         <div className="w-1/3 flex flex-col justify-center items-start gap-2 px-4">
-          <p className="text-md font-medium text-muted-foreground">📈 Sales Summary</p>
+          <p className="font-medium text-muted-foreground">📈 Sales Summary</p>
           {forecast.map((f, i) => (
             <p key={i} className="text-sm text-white">{f.month}: {f.units} units</p>
           ))}

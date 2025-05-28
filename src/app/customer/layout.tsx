@@ -1,6 +1,5 @@
 import { Sidebar } from "@/components/nav/customer/sidebar"
 import { CustomerHeader } from "@/components/nav/customer/header"
-import { Providers } from "@/components/shared/providers"
 import "@/styles/globals.css"
 
 export default function CustomerLayout({

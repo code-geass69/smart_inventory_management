@@ -7,7 +7,7 @@ import {
   orderItems as OrderItem,
 } from "@/db/schema"
 import { writeToBuffer } from "@fast-csv/format"
-import { eq, lt, sql } from "drizzle-orm"
+import { eq, sql } from "drizzle-orm"
 
 type KeywordReply = () => Promise<{
   replies: string | string[]

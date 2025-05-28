@@ -6,7 +6,7 @@ import jsPDF from "jspdf"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { FileTextIcon, EyeOpenIcon, CalendarIcon, CheckCircledIcon, IdCardIcon, HomeIcon, BoxIcon } from "@radix-ui/react-icons"
+import { FileTextIcon, EyeOpenIcon, CalendarIcon, CheckCircledIcon, IdCardIcon } from "@radix-ui/react-icons"
 import { Skeleton } from "@/components/ui/skeleton"
 import InvoiceDownload from "./invoice-download"
 

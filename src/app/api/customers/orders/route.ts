@@ -13,7 +13,6 @@ export async function POST(req: Request) {
       totalPrice,
       customerId,
       shippingAddress,
-      paymentStatus,
     } = body
 
     const [item] = await db

@@ -3,7 +3,6 @@
 import { useRef } from "react"
 import { useRouter } from "next/navigation"
 import { useToast } from "@/hooks/use-toast"
-import { ImportCsvButton } from "@/components/inventory/import-button"
 import { buttonVariants } from "../ui/button"
 import { cn } from "@/lib/utils"
 import { Icons } from "@/components/icons"

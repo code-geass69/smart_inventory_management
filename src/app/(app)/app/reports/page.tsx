@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import {
-  BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
+  BarChart, Bar, LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer,
 } from "recharts";
 
 export default function AppReportsPage(): JSX.Element {
