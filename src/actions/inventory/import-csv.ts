@@ -1,9 +1,10 @@
 "use server"
 import { db } from "@/db"
-import { items, brands, categories, warehouses } from "@/db/schema"
+import { items as itemsTable, brands, categories, warehouses } from "@/db/schema"
 import { eq } from "drizzle-orm"
 import { z } from "zod"
 import { parse } from "csv-parse/sync"
+import type { InferInsertModel } from "drizzle-orm"
 
 const CsvItemSchema = z.object({
   name: z.string(),
@@ -35,12 +36,13 @@ export async function importItemsFromCsv(fileBuffer: string): Promise<string> {
       columns: true,
       skip_empty_lines: true,
     })
-    console.log(`✅ Parsed ${records.length} records from CSV`)
+    console.log(`Parsed ${records.length} records from CSV`)
+
     for (const rawItem of records) {
       const parsed = CsvItemSchema.safeParse(rawItem)
 
       if (!parsed.success) {
-        console.error("❌ Validation error for item:", rawItem)
+        console.error("Validation error for item:", rawItem)
         console.error(parsed.error)
         throw new Error("Invalid CSV format")
       }
@@ -51,7 +53,7 @@ export async function importItemsFromCsv(fileBuffer: string): Promise<string> {
         .where(eq(categories.name, input.category))
 
       if (!category) {
-        console.error(`❌ Category not found: ${input.category}`)
+        console.error(`Category not found: ${input.category}`)
         throw new Error(`Missing category for item: ${input.name}`)
       }
 
@@ -61,21 +63,21 @@ export async function importItemsFromCsv(fileBuffer: string): Promise<string> {
         .where(eq(brands.name, input.brand))
 
       if (!brand) {
-        console.error(`❌ Brand not found: ${input.brand}`)
+        console.error(`Brand not found: ${input.brand}`)
         throw new Error(`Missing brand for item: ${input.name}`)
       }
 
       const [warehouse] = await db
         .select()
         .from(warehouses)
-        .where(eq(warehouses.name, input.warehouse.trim())) 
+        .where(eq(warehouses.name, input.warehouse.trim()))
 
 
       if (!warehouse) {
-        console.error(`❌ Warehouse not found: ${input.warehouse}`)
+        console.error(`Warehouse not found: ${input.warehouse}`)
         throw new Error(`Missing warehouse for item: ${input.name}`)
       }
-      await db.insert(items).values({
+      const itemToInsert: InferInsertModel<typeof itemsTable> = {
         name: input.name,
         categoryId: category.id,
         brandId: brand.id,
@@ -83,27 +85,28 @@ export async function importItemsFromCsv(fileBuffer: string): Promise<string> {
         sku: input.sku,
         barcode: input.barcode,
         quantity: input.quantity,
-        purchasePrice: input.purchasePrice,
-        sellingPrice: input.sellingPrice,
+        sellingPrice: String(input.sellingPrice),
+        purchasePrice: String(input.purchasePrice),
         description: input.description ?? "",
         notes: input.notes ?? "",
-        taxRate: input.taxRate,
-        width: input.width,
-        height: input.height,
-        depth: input.depth,
+        taxRate: String(input.taxRate),
+        width: String(input.width),
+        height: String(input.height),
+        depth: String(input.depth),
         dimensionsUnit: input.dimensionsUnit,
-        weight: input.weight,
+        weight: String(input.weight),
         weightUnit: input.weightUnit,
         unit: input.unit,
         reorderPoint: input.reorderPoint,
         supplier: input.supplier,
         createdAt: new Date(),
-      })
-      console.log(`✅ Item "${input.name}" successfully inserted`)
+      }
+      await db.insert(itemsTable).values(itemToInsert)
+      console.log(`Item "${input.name}" successfully inserted`)
     }
     return "success"
   } catch (error) {
-    console.error("❌ Error importing items:", error)
+    console.error("Error importing items:", error)
     return "error"
   }
 }
