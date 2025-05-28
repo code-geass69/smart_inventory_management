@@ -1,6 +1,16 @@
-import { pgTable, foreignKey, pgEnum, text, timestamp, serial, varchar, numeric, integer, unique, primaryKey } from "drizzle-orm/pg-core"
-  import { sql } from "drizzle-orm"
-
+import {
+  pgTable,
+  foreignKey,
+  pgEnum,
+  text,
+  timestamp,
+  serial,
+  varchar,
+  numeric,
+  integer,
+  unique,
+  primaryKey,
+} from "drizzle-orm/pg-core"
 export const userRole = pgEnum("user_role", ['admin', 'user'])
 export const orderStatus = pgEnum("order_status", ['accepted', 'delivered', 'shipped', 'pending'])
 export const paymentStatus = pgEnum("payment_status", ['cash on delivery', 'fully paid', 'partially paid'])

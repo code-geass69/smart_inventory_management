@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { db } from "@/db"
 import { items, orderItems, orders } from "@/db/schema"
-import { sql } from "drizzle-orm"
+import { sql } from "drizzle-orm/sql"
 
 const simpleLinearRegression = (x: number[], y: number[]): number[] => {
   const n = x.length

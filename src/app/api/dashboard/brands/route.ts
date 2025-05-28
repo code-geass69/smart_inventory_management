@@ -1,6 +1,6 @@
 import { db } from "@/db"; 
 import { brands, items, orderItems, orders } from "@/db/schema"; 
-import { sql } from "drizzle-orm"; 
+import { sql } from "drizzle-orm/sql"; 
 import { NextResponse } from "next/server";
 
 export async function GET() {

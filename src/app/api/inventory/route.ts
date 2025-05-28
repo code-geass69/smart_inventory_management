@@ -2,7 +2,7 @@
 
 import { db } from "@/db" // Adjust the path based on your db setup
 import { items, categories } from "@/db/schema" // Import the necessary schemas
-import { sql } from "drizzle-orm"
+import { sql } from "drizzle-orm/sql";
 import { NextResponse } from "next/server" // Import NextResponse
 
 // Exporting the handler for the GET method

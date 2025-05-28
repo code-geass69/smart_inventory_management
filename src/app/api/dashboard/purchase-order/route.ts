@@ -1,6 +1,6 @@
 import { db } from "@/db"; // Import your database connection
 import { orderItems } from "@/db/schema"; // Import your schema
-import { sql } from "drizzle-orm"; // For raw SQL queries
+import { sql } from "drizzle-orm/sql"; // For raw SQL queries
 import { NextResponse } from "next/server";
 
 export async function GET() {
