@@ -13,8 +13,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { OAuthButtons } from "@/components/auth/oauth-buttons"
-// import { SignInWithEmailForm } from "@/components/forms/auth/signin-with-email-form"
 import { SignInWithPasswordForm } from "@/components/forms/auth/signin-with-password-form"
 import { Icons } from "@/components/icons"
 
@@ -38,19 +36,15 @@ export default async function SignInPage(): Promise<JSX.Element> {
               <Icons.close className="h-4 w-4" />
             </Link>
           </div>
-          <CardDescription>
-            Choose your preferred sign in method
-          </CardDescription>
         </CardHeader>
         <CardContent className="max-sm:w-full max-sm:max-w-[340px] max-sm:px-10">
-          <OAuthButtons />
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
               <span className="w-full border-t" />
             </div>
             <div className="relative mb-3 mt-6 flex justify-center text-xs uppercase">
               <span className="bg-background px-2">
-                Continue with password
+                Enter Email & Password
               </span>
             </div>
           </div>
