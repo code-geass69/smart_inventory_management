@@ -32,7 +32,7 @@ export function Sidebar() {
     <aside className="w-64 h-screen bg-[#0F172A] text-white flex flex-col justify-between border-r border-gray-700 shadow-md">
       <div>
         <div className="px-6 py-4 text-lg font-bold border-b border-gray-700 pt-9">
-          Arcline Logistics
+          Zaiko
         </div>
         <nav className="flex flex-col text-sm font-medium">
           {links.map((link) => (

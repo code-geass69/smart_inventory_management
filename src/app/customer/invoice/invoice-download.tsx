@@ -7,7 +7,7 @@ const InvoiceDownload = forwardRef(({ order }: { order: any }, ref: React.Ref<HT
   return (
     <div ref={ref} className="p-6 text-sm w-full text-black bg-white">
       <div className="flex justify-between items-center border-b pb-2 mb-4">
-        <h3 className="text-xl font-bold">Arcline Logistics</h3>
+        <h3 className="text-xl font-bold">Zaiko</h3>
         <span className="text-sm text-gray-600 flex items-center gap-1">
           <CalendarIcon /> {new Date(order.createdAt).toLocaleString()}
         </span>
