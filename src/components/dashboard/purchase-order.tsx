@@ -21,8 +21,8 @@ export function PurchaseOrder(): JSX.Element {
 
         // Update state
         const updatedData = {
-          totalQuantityOrdered: parseInt(result['0'], 10), // Parse as integer
-          totalCost: parseFloat(result['1']), // Parse as float
+          totalQuantityOrdered: parseInt(result.total_quantity_ordered, 10),
+          totalCost: parseFloat(result.total_cost),
         };
 
         setPurchaseOrderData(updatedData); // Set state with updated values

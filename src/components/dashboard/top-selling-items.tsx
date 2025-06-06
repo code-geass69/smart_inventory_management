@@ -11,9 +11,9 @@ export function TopSellingItems(): JSX.Element {
 
       if (data.status === "success") {
         const sortedItems = data.data.sort((a: any, b: any) => b[2] - a[2]);
-        const top5Items = sortedItems.slice(0, 5); 
+        const top5Items = sortedItems.slice(0, 5);
 
-        setTopSellingItems(top5Items); 
+        setTopSellingItems(top5Items);
       } else {
         setTopSellingItems([]);
       }
@@ -32,10 +32,13 @@ export function TopSellingItems(): JSX.Element {
       <div className="flex h-full flex-col items-center justify-center border-t">
         {topSellingItems.length > 0 ? (
           topSellingItems.map((item: any, index: number) => (
-            <div key={index} className="flex justify-between items-center w-full py-2 px-5 border-b">
-              <p className="flex-1">{item[1]}</p> 
-              <p className="flex-1 text-center">{item[2]} pcs</p> 
-              <p className="flex-1 text-right">${item[3]}</p> 
+            <div
+              key={index}
+              className="flex justify-between items-center w-full py-2 px-5 border-b"
+            >
+              <p className="flex-1">{item.name}</p>
+              <p className="flex-1 text-center">{item.total_quantity_sold} pcs</p>
+              <p className="flex-1 text-right">₹ {parseFloat(item.total_price).toFixed(2)}</p>
             </div>
           ))
         ) : (

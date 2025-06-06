@@ -7,7 +7,6 @@ import { Icons } from "@/components/icons"
 import { ItemsDropdown } from "@/components/inventory/dropdowns/items-dropdown"
 import { ItemsSelect } from "@/components/inventory/selects/items-select"
 import { ViewToggle } from "@/components/inventory/view-toggle"
-import { InstantHelperMenu } from "@/components/nav/app/menus/instant-helper-menu"
 
 export function ItemsSubheader(): JSX.Element {
   return (
@@ -28,7 +27,6 @@ export function ItemsSubheader(): JSX.Element {
 
         <ViewToggle />
         <ItemsDropdown />
-        <InstantHelperMenu />
       </div>
     </div>
   )

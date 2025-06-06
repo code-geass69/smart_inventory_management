@@ -16,7 +16,7 @@ export function OrganizationMenu(): JSX.Element {
   const { data: session } = useSession()
   const user = session?.user
   const router = useRouter()
-  const displayName = `${user?.name ?? ""}`.trim() || `${user?.firstName ?? ""} ${user?.lastName ?? ""}`.trim() || "User"
+  const displayName = "Admin"
   return (
     <DropdownMenu>
       <DropdownMenuTrigger

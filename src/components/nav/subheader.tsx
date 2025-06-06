@@ -3,7 +3,6 @@ import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import { CustomTooltip } from "@/components/custom-tooltip"
 import { Icons } from "@/components/icons"
-import { InstantHelperMenu } from "@/components/nav/app/menus/instant-helper-menu"
 
 interface SubheaderProps {
   buttonText: string
@@ -41,7 +40,6 @@ export function Subheader({
           </button>
         </CustomTooltip>
 
-        <InstantHelperMenu />
       </div>
     </div>
   )

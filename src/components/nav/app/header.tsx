@@ -12,7 +12,6 @@ import { InstantHelperMenu } from "@/components/nav/app/menus/instant-helper-men
 export function Header(): JSX.Element {
   return (
     <header className="sticky top-0 z-[50] flex h-20 items-center justify-between gap-8 border-b bg-tertiary px-5">
-      {/* LEFT SECTION */}
       <div className="flex h-full items-center gap-2">
         <CustomTooltip text="Recent Activity">
           <Link
@@ -34,16 +33,6 @@ export function Header(): JSX.Element {
       <div className="flex items-center justify-center">
         <InstantHelperMenu />
         </div>
-  
-          <CustomTooltip text="Settings">
-            <Link
-              href="/app/settings"
-              aria-label="Settings"
-              className={cn(buttonVariants({ variant: "ghost" }), "p-3")}
-            >
-              <Icons.settings aria-hidden="true" className="h-4 w-4" />
-            </Link>
-          </CustomTooltip>
         </div>
         <OrganizationMenu />
       </div>

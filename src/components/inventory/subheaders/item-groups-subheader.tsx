@@ -7,7 +7,6 @@ import { Icons } from "@/components/icons"
 import { ItemGroupsDropdown } from "@/components/inventory/dropdowns/item-groups-dropdown"
 import { ItemGroupsSelect } from "@/components/inventory/selects/item-groups-select"
 import { ViewToggle } from "@/components/inventory/view-toggle"
-import { InstantHelperMenu } from "@/components/nav/app/menus/instant-helper-menu"
 
 export function ItemGroupsSubheader(): JSX.Element {
   return (
@@ -28,7 +27,6 @@ export function ItemGroupsSubheader(): JSX.Element {
 
         <ViewToggle />
         <ItemGroupsDropdown />
-        <InstantHelperMenu />
       </div>
     </div>
   )

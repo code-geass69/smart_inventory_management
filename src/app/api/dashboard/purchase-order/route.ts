@@ -1,11 +1,10 @@
-import { db } from "@/db"; // Import your database connection
-import { orderItems } from "@/db/schema"; // Import your schema
-import { sql } from "drizzle-orm/sql"; // For raw SQL queries
+import { db } from "@/db"; 
+import { orderItems } from "@/db/schema"; 
+import { sql } from "drizzle-orm/sql"; 
 import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    // Query to get total quantity and cost
     const purchaseOrderResult = await db
       .select({
         total_quantity_ordered: sql`SUM(${orderItems.quantity})`.as("total_quantity_ordered"),
