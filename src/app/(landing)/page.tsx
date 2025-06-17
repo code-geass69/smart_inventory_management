@@ -19,10 +19,16 @@ export default function HomePage(): JSX.Element {
       <nav className="flex justify-between items-center px-8 py-4 border-b border-gray-700">
         <div className="text-2xl font-extrabold">Zaiko</div>
         <div className="space-x-6 text-base">
-          <Link href="/signup" className="hover:text-blue-400">
+          <Link
+            href="/signup"
+            className="relative after:absolute after:left-1/2 after:bottom-0 after:w-0 after:h-[2px] after:bg-blue-700 after:transition-all after:duration-300 hover:text-blue-700 hover:after:left-0 hover:after:w-full"
+          >
             Admin
           </Link>
-          <Link href="/register" className="hover:text-emerald-400">
+          <Link
+            href="/register"
+            className="relative after:absolute after:left-1/2 after:bottom-0 after:w-0 after:h-[2px] after:bg-blue-700 after:transition-all after:duration-300 hover:text-blue-700 hover:after:left-0 hover:after:w-full"
+          >
             Customer
           </Link>
         </div>

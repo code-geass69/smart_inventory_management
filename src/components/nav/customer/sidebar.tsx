@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
+import { Package, ClipboardList, LocateIcon, FileText } from "lucide-react"
 
 export function Sidebar() {
   const [customerName, setCustomerName] = useState("Customer")
@@ -21,12 +22,12 @@ export function Sidebar() {
     }
   }, [])
 
-  const links = [
-    { href: "/customer/place-order", label: "Place Order" },
-    { href: "/customer/view-orders", label: "View Orders" },
-    { href: "/customer/track", label: "Track Order" },
-    { href: "/customer/invoice", label: "Invoice" },
-  ]
+const links = [
+  { href: "/customer/place-order", label: "Place Order", icon: Package },
+  { href: "/customer/view-orders", label: "View Orders", icon: ClipboardList },
+  { href: "/customer/track", label: "Track Order", icon: LocateIcon },
+  { href: "/customer/invoice", label: "Invoice", icon: FileText },
+]
 
   return (
     <aside className="w-64 h-screen bg-[#0F172A] text-white flex flex-col justify-between border-r border-gray-700 shadow-md">
@@ -35,20 +36,24 @@ export function Sidebar() {
           Zaiko
         </div>
         <nav className="flex flex-col text-sm font-medium">
-          {links.map((link) => (
+          {links.map((link) => {  
+            const Icon = link.icon
+            return (
             <Link
               key={link.href}
               href={link.href}
               className={cn(
-                "px-6 py-3 transition-colors duration-200",
+                "px-6 py-3 transition-colors duration-200 flex items-center gap-2",
                 pathname === link.href
                   ? "bg-blue-600 text-white shadow-inner"
                   : "hover:bg-blue-900 hover:text-white"
               )}
             >
+               <Icon size={16} />
               {link.label}
             </Link>
-          ))}
+            )
+          })}
         </nav>
       </div>
       <div className="p-4 text-xs text-center border-t border-gray-700">
