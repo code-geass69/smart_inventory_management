@@ -265,19 +265,28 @@ importers:
         specifier: ^2.4.6
         version: 2.4.6
       '@types/eslint':
-        specifier: ^8.56.2
+        specifier: ^8.56.12
         version: 8.56.12
+      '@types/estree':
+        specifier: ^1.0.8
+        version: 1.0.8
       '@types/formidable':
         specifier: ^3.4.5
         version: 3.4.5
+      '@types/json-schema':
+        specifier: ^7.0.15
+        version: 7.0.15
       '@types/json2csv':
         specifier: ^5.0.7
         version: 5.0.7
       '@types/jsonwebtoken':
-        specifier: ^9.0.5
+        specifier: ^9.0.9
         version: 9.0.9
+      '@types/ms':
+        specifier: ^2.1.0
+        version: 2.1.0
       '@types/node':
-        specifier: ^20.11.0
+        specifier: ^20.17.25
         version: 20.17.25
       '@types/papaparse':
         specifier: ^5.3.15
@@ -285,11 +294,14 @@ importers:
       '@types/pg':
         specifier: ^8.15.2
         version: 8.15.2
+      '@types/prop-types':
+        specifier: ^15.7.14
+        version: 15.7.14
       '@types/react':
-        specifier: ^18.2.47
+        specifier: ^18.3.19
         version: 18.3.19
       '@types/react-dom':
-        specifier: ^18.2.18
+        specifier: ^18.3.5
         version: 18.3.5(@types/react@18.3.19)
       '@typescript-eslint/eslint-plugin':
         specifier: ^6.18.1
@@ -1780,8 +1792,8 @@ packages:
   '@types/eslint@8.56.12':
     resolution: {integrity: sha512-03ruubjWyOHlmljCVoxSuNDdmfZDzsrrz0P2LeJsOXr+ZwFQ+0yQIwNCwt/GYhV7Z31fgtXJTAEs+FYlEL851g==}
 
-  '@types/estree@1.0.6':
-    resolution: {integrity: sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==}
+  '@types/estree@1.0.8':
+    resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
 
   '@types/formidable@3.4.5':
     resolution: {integrity: sha512-s7YPsNVfnsng5L8sKnG/Gbb2tiwwJTY1conOkJzTMRvJAlLFW1nEua+ADsJQu8N1c0oTHx9+d5nqg10WuT9gHQ==}
@@ -6156,10 +6168,10 @@ snapshots:
 
   '@types/eslint@8.56.12':
     dependencies:
-      '@types/estree': 1.0.6
+      '@types/estree': 1.0.8
       '@types/json-schema': 7.0.15
 
-  '@types/estree@1.0.6': {}
+  '@types/estree@1.0.8': {}
 
   '@types/formidable@3.4.5':
     dependencies:

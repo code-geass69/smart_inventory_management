@@ -42,7 +42,6 @@ export function CustomerHeader(): JSX.Element {
 
   return (
     <header className="sticky top-0 z-[50] flex h-20 items-center justify-between gap-8 border-b bg-[#0B0F19] px-5 text-white">
-      {/* LEFT SECTION: Icon + Search */}
       <div className="flex items-center gap-4 flex-1">
         <CustomTooltip text="Order Status">
           <Link
@@ -59,7 +58,6 @@ export function CustomerHeader(): JSX.Element {
         </div>
       </div>
 
-      {/* RIGHT SECTION: Dropdown */}
       <div className="flex items-center gap-4 text-sm">
         <DropdownMenu>
           <DropdownMenuTrigger
