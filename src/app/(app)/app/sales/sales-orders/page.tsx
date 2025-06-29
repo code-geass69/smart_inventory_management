@@ -66,7 +66,7 @@ export default function AppSalesOrdersPageWrapper({
     }
 
     fetchData()
-  }, [parsedParams])
+  }, [parsedParams, toast])
 
   const handleStatusChange = async (orderId: number, newStatus: string) => {
     try {

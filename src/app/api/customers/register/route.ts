@@ -7,17 +7,26 @@ import { eq } from "drizzle-orm"
 export async function POST(req: Request) {
   try {
     const body = await req.json()
-
     const { name, email, phone, address, password, state } = body
 
-    const existing = await db
+    const existingEmail = await db
       .select()
       .from(customers)
       .where(eq(customers.email, email))
-
-    if (existing.length > 0) {
+    if (existingEmail.length > 0) {
       return NextResponse.json(
         { status: "error", message: "Email already registered" },
+        { status: 409 }
+      )
+    }
+
+    const existingPhone = await db
+      .select()
+      .from(customers)
+      .where(eq(customers.phone_number, phone))
+    if (existingPhone.length > 0) {
+      return NextResponse.json(
+        { status: "error", message: "Phone number already registered" },
         { status: 409 }
       )
     }
@@ -37,8 +46,24 @@ export async function POST(req: Request) {
       status: "success",
       message: "Customer registered successfully",
     })
-  } catch (error) {
+  } catch (error: any) {
     console.error("Registration Error:", error)
+
+    if (error.code === "23505") {
+      if (error.detail?.includes("(phone_number)")) {
+        return NextResponse.json(
+          { status: "error", message: "Phone number already registered" },
+          { status: 409 }
+        )
+      }
+      if (error.detail?.includes("(email)")) {
+        return NextResponse.json(
+          { status: "error", message: "Email already registered" },
+          { status: 409 }
+        )
+      }
+    }
+
     return NextResponse.json(
       { status: "error", message: "Registration failed" },
       { status: 500 }

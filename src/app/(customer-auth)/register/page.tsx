@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import Link from "next/link"
+import { useToast } from "@/hooks/use-toast"
 
 // List of Indian states
 const states = [
@@ -24,6 +25,8 @@ const states = [
 ]
 
 export default function CustomerRegisterPage() {
+
+  const { toast } = useToast()
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -55,15 +58,15 @@ export default function CustomerRegisterPage() {
       setLoading(false)
 
       if (data.status === "success") {
-        alert("User successfully created. Please login to continue.")
+        toast({ title: "Success", description: "User successfully created. Please login to continue.", variant: "default" })
         router.push("/login")
       } else {
-        alert(data.message || "Registration failed. Please try again.")
+        toast({ title: "Error", description: data.message || "Registration failed. Please try again.", variant: "destructive" })
       }
     } catch (error) {
       console.error(error)
       setLoading(false)
-      alert("Something went wrong. Please try again later.")
+      toast({ title: "Error", description: "Something went wrong. Please try again later.", variant: "destructive" })
     }
   }
 

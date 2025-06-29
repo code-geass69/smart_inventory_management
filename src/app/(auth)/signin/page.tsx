@@ -8,7 +8,6 @@ import { DEFAULT_SIGNIN_REDIRECT } from "@/data/constants/index"
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,

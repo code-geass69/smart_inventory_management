@@ -47,7 +47,7 @@ export default function InvoicePage() {
         setPendingDownload(false)
       }, 300)
     }
-  }, [open, pendingDownload, selectedOrder])
+  }, [open, pendingDownload, selectedOrder, downloadInvoice])
 
   return (
     <div className="p-6 bg-[#0d0f15] min-h-screen text-white">
